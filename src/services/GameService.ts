@@ -21,7 +21,7 @@ export interface IGameService {
   pauseGame(): void;
 
   /**
-   * Resumes the current game
+   * Resumes a paused game, transitioning back to playing without reinitializing the level
    */
   resumeGame(): void;
 
@@ -70,8 +70,11 @@ export class GameService implements IGameService {
     this.gameCore.pauseGame();
   }
 
+  /**
+   * Resumes a paused game without reinitializing the level.
+   */
   resumeGame(): void {
-    this.gameCore.startGame(); // Resume is same as start for now
+    this.gameCore.resumeGame();
   }
 
   resetGame(): void {
