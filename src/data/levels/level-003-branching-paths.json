@@ -1,0 +1,101 @@
+{
+  "id": "level-003-branching-paths",
+  "version": 1,
+  "$schema": "https://labyrinth-leap.com/schemas/level-v1.json",
+  "metadata": {
+    "name": "Branching Paths",
+    "difficulty": "easy",
+    "estimatedTime": 120,
+    "tags": ["procedural", "choices", "exploration"],
+    "description": "Multiple paths lead to the goal - choose wisely"
+  },
+  "generation": {
+    "type": "procedural",
+    "seed": 23456,
+    "parameters": {
+      "algorithm": "kruskal",
+      "complexity": 0.4,
+      "branchingFactor": 0.5,
+      "deadEndRatio": 0.2,
+      "orbCount": 3,
+      "orbPlacement": "strategic",
+      "minPathLength": 10,
+      "maxPathLength": 20
+    }
+  },
+  "config": {
+    "boardSize": {"width": 7, "height": 7},
+    "objectives": [
+      {
+        "id": "reach-goal",
+        "type": "reach_goal",
+        "target": 1,
+        "description": "Navigate to the exit",
+        "required": true,
+        "priority": 1
+      },
+      {
+        "id": "collect-most-orbs",
+        "type": "collect_orbs",
+        "target": 2,
+        "description": "Collect at least 2 orbs",
+        "required": false,
+        "priority": 2
+      }
+    ],
+    "constraints": [
+      {
+        "id": "move-limit",
+        "type": "move_limit",
+        "value": 50,
+        "description": "Complete in 50 moves or less",
+        "severity": "warning"
+      }
+    ],
+    "powerups": [
+      {
+        "type": "speed_boost",
+        "spawnRate": 0.1,
+        "duration": 10,
+        "effect": "Increases movement speed",
+        "stackable": false
+      }
+    ]
+  },
+  "progression": {
+    "starThresholds": [
+      {
+        "stars": 1,
+        "requirements": {}
+      },
+      {
+        "stars": 2,
+        "requirements": {
+          "orbsCollected": 2,
+          "moves": 40
+        }
+      },
+      {
+        "stars": 3,
+        "requirements": {
+          "orbsCollected": 3,
+          "moves": 30
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "type": "coins",
+        "value": 100,
+        "description": "Completion bonus"
+      },
+      {
+        "type": "unlock",
+        "value": 1,
+        "description": "New powerup unlocked",
+        "id": "speed_boost"
+      }
+    ],
+    "unlocks": ["level-004-time-pressure"]
+  }
+}

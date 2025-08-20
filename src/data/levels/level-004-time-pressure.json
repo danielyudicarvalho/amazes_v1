@@ -1,0 +1,101 @@
+{
+  "id": "level-004-time-pressure",
+  "version": 1,
+  "$schema": "https://labyrinth-leap.com/schemas/level-v1.json",
+  "metadata": {
+    "name": "Time Pressure",
+    "difficulty": "medium",
+    "estimatedTime": 90,
+    "tags": ["timed", "pressure", "speed"],
+    "description": "Race against time to reach the exit"
+  },
+  "generation": {
+    "type": "procedural",
+    "seed": 34567,
+    "parameters": {
+      "algorithm": "prim",
+      "complexity": 0.5,
+      "branchingFactor": 0.3,
+      "deadEndRatio": 0.15,
+      "orbCount": 4,
+      "orbPlacement": "random",
+      "minPathLength": 12,
+      "maxPathLength": 25
+    }
+  },
+  "config": {
+    "boardSize": {"width": 8, "height": 8},
+    "objectives": [
+      {
+        "id": "reach-goal-fast",
+        "type": "reach_goal",
+        "target": 1,
+        "description": "Reach the exit quickly",
+        "required": true,
+        "priority": 1
+      },
+      {
+        "id": "time-challenge",
+        "type": "time_limit",
+        "target": 60,
+        "description": "Complete within 60 seconds",
+        "required": false,
+        "priority": 2
+      }
+    ],
+    "constraints": [
+      {
+        "id": "strict-time-limit",
+        "type": "time_limit",
+        "value": 90,
+        "description": "Game over after 90 seconds",
+        "severity": "failure"
+      }
+    ],
+    "powerups": [
+      {
+        "type": "time_freeze",
+        "spawnRate": 0.05,
+        "duration": 5,
+        "effect": "Freezes the timer",
+        "stackable": false,
+        "cooldown": 30
+      }
+    ]
+  },
+  "progression": {
+    "starThresholds": [
+      {
+        "stars": 1,
+        "requirements": {}
+      },
+      {
+        "stars": 2,
+        "requirements": {
+          "time": 75
+        }
+      },
+      {
+        "stars": 3,
+        "requirements": {
+          "time": 60,
+          "orbsCollected": 2
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "type": "coins",
+        "value": 150,
+        "description": "Speed completion bonus"
+      },
+      {
+        "type": "achievement",
+        "value": 1,
+        "description": "Speed Runner",
+        "id": "speed_runner_1"
+      }
+    ],
+    "unlocks": ["level-005-puzzle-chamber"]
+  }
+}

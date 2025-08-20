@@ -1,0 +1,119 @@
+{
+  "id": "level-006-maze-runner",
+  "version": 1,
+  "$schema": "https://labyrinth-leap.com/schemas/level-v1.json",
+  "metadata": {
+    "name": "Maze Runner",
+    "difficulty": "medium",
+    "estimatedTime": 240,
+    "tags": ["procedural", "large", "endurance"],
+    "description": "Navigate through a larger, more complex maze"
+  },
+  "generation": {
+    "type": "procedural",
+    "seed": 45678,
+    "parameters": {
+      "algorithm": "wilson",
+      "complexity": 0.6,
+      "branchingFactor": 0.4,
+      "deadEndRatio": 0.25,
+      "orbCount": 6,
+      "orbPlacement": "corners",
+      "minPathLength": 20,
+      "maxPathLength": 40,
+      "symmetry": "none"
+    }
+  },
+  "config": {
+    "boardSize": {"width": 10, "height": 10},
+    "objectives": [
+      {
+        "id": "reach-goal",
+        "type": "reach_goal",
+        "target": 1,
+        "description": "Navigate to the distant exit",
+        "required": true,
+        "priority": 1
+      },
+      {
+        "id": "collect-half-orbs",
+        "type": "collect_orbs",
+        "target": 3,
+        "description": "Collect at least half the orbs",
+        "required": false,
+        "priority": 2
+      },
+      {
+        "id": "collect-all-orbs",
+        "type": "collect_all_orbs",
+        "target": 6,
+        "description": "Collect every orb in the maze",
+        "required": false,
+        "priority": 3
+      }
+    ],
+    "constraints": [
+      {
+        "id": "move-efficiency",
+        "type": "move_limit",
+        "value": 100,
+        "description": "Complete efficiently in 100 moves",
+        "severity": "warning"
+      }
+    ],
+    "powerups": [
+      {
+        "type": "wall_phase",
+        "spawnRate": 0.02,
+        "duration": 3,
+        "effect": "Walk through walls briefly",
+        "stackable": false,
+        "cooldown": 60
+      },
+      {
+        "type": "orb_detector",
+        "spawnRate": 0.05,
+        "duration": 15,
+        "effect": "Shows nearby orbs",
+        "stackable": false
+      }
+    ]
+  },
+  "progression": {
+    "starThresholds": [
+      {
+        "stars": 1,
+        "requirements": {}
+      },
+      {
+        "stars": 2,
+        "requirements": {
+          "orbsCollected": 3,
+          "moves": 80
+        }
+      },
+      {
+        "stars": 3,
+        "requirements": {
+          "orbsCollected": 6,
+          "moves": 60,
+          "time": 180
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "type": "coins",
+        "value": 300,
+        "description": "Maze completion bonus"
+      },
+      {
+        "type": "unlock",
+        "value": 1,
+        "description": "Wall phase powerup unlocked",
+        "id": "wall_phase"
+      }
+    ],
+    "unlocks": ["level-007-symmetry-challenge"]
+  }
+}

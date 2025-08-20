@@ -1,0 +1,201 @@
+{
+  "id": "level-010-master-challenge",
+  "version": 1,
+  "$schema": "https://labyrinth-leap.com/schemas/level-v1.json",
+  "metadata": {
+    "name": "Master Challenge",
+    "difficulty": "expert",
+    "estimatedTime": 600,
+    "tags": ["handcrafted", "expert", "final", "ultimate"],
+    "description": "The ultimate test combining all skills learned - only true masters will prevail"
+  },
+  "generation": {
+    "type": "handcrafted",
+    "layout": {
+      "cells": [
+        [{"walls": 12, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 10, "type": "floor"}],
+        [{"walls": 4, "type": "start"}, {"walls": 0, "type": "floor"}, {"walls": 9, "type": "special", "properties": {"checkpoint": 1}}, {"walls": 1, "type": "floor"}, {"walls": 9, "type": "special", "properties": {"trap": "moving_wall"}}, {"walls": 1, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 4, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 9, "type": "special", "properties": {"portal": "A"}}, {"walls": 1, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 4, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 9, "type": "special", "properties": {"sequence_lock": ["red", "blue", "green"]}}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 4, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 9, "type": "special", "properties": {"portal": "B"}}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 4, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 9, "type": "special", "properties": {"checkpoint": 2}}, {"walls": 1, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 4, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 9, "type": "special", "properties": {"time_zone": "slow"}}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 6, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 3, "type": "goal"}]
+      ],
+      "startPosition": {"x": 0, "y": 1},
+      "goalPosition": {"x": 7, "y": 7},
+      "orbPositions": [
+        {"x": 1, "y": 1, "value": 25, "id": "orb-red"},
+        {"x": 3, "y": 3, "value": 50, "id": "orb-blue"},
+        {"x": 6, "y": 2, "value": 75, "id": "orb-green"},
+        {"x": 2, "y": 6, "value": 100, "id": "orb-gold"},
+        {"x": 5, "y": 5, "value": 150, "id": "orb-diamond"}
+      ],
+      "powerupPositions": [
+        {"x": 2, "y": 1, "type": "master_key", "id": "key-1"},
+        {"x": 5, "y": 2, "type": "portal_activator", "id": "portal-key"},
+        {"x": 6, "y": 6, "type": "time_master", "id": "time-control"}
+      ],
+      "specialCells": [
+        {"x": 2, "y": 1, "type": "checkpoint", "properties": {"id": 1, "respawn": true}},
+        {"x": 4, "y": 1, "type": "moving_wall", "properties": {"pattern": "horizontal", "speed": 2}},
+        {"x": 5, "y": 2, "type": "portal", "properties": {"id": "A", "destination": "B"}},
+        {"x": 4, "y": 4, "type": "portal", "properties": {"id": "B", "destination": "A"}},
+        {"x": 2, "y": 3, "type": "sequence_lock", "properties": {"requires": ["orb-red", "orb-blue", "orb-green"]}},
+        {"x": 5, "y": 5, "type": "checkpoint", "properties": {"id": 2, "respawn": true}},
+        {"x": 2, "y": 6, "type": "time_zone", "properties": {"effect": "slow", "multiplier": 0.5}}
+      ]
+    }
+  },
+  "config": {
+    "boardSize": {"width": 8, "height": 8},
+    "objectives": [
+      {
+        "id": "master-completion",
+        "type": "reach_goal",
+        "target": 1,
+        "description": "Complete the ultimate challenge",
+        "required": true,
+        "priority": 1
+      },
+      {
+        "id": "sequence-master",
+        "type": "collect_sequence",
+        "target": 3,
+        "description": "Unlock the sequence lock with red, blue, green orbs",
+        "required": true,
+        "priority": 2,
+        "conditions": {
+          "sequence": ["orb-red", "orb-blue", "orb-green"]
+        }
+      },
+      {
+        "id": "treasure-hunter",
+        "type": "collect_orbs",
+        "target": 5,
+        "description": "Collect all treasure orbs",
+        "required": false,
+        "priority": 3
+      },
+      {
+        "id": "time-master",
+        "type": "time_limit",
+        "target": 300,
+        "description": "Complete within 5 minutes",
+        "required": false,
+        "priority": 4
+      }
+    ],
+    "constraints": [
+      {
+        "id": "ultimate-time-limit",
+        "type": "time_limit",
+        "value": 600,
+        "description": "Absolute time limit - 10 minutes maximum",
+        "severity": "failure"
+      },
+      {
+        "id": "limited-vision",
+        "type": "limited_vision",
+        "value": 2,
+        "description": "Very limited vision range",
+        "severity": "warning"
+      },
+      {
+        "id": "no-backtrack-zones",
+        "type": "no_backtrack",
+        "value": 1,
+        "description": "Some areas cannot be revisited",
+        "severity": "failure"
+      }
+    ],
+    "powerups": [
+      {
+        "type": "master_key",
+        "spawnRate": 0.0,
+        "duration": -1,
+        "effect": "Unlocks sequence locks",
+        "stackable": false
+      },
+      {
+        "type": "portal_activator",
+        "spawnRate": 0.0,
+        "duration": -1,
+        "effect": "Activates portal network",
+        "stackable": false
+      },
+      {
+        "type": "time_master",
+        "spawnRate": 0.0,
+        "duration": 30,
+        "effect": "Controls time flow in time zones",
+        "stackable": false
+      }
+    ],
+    "environmentEffects": [
+      {
+        "type": "dynamic_walls",
+        "intensity": 0.3
+      },
+      {
+        "type": "portal_network",
+        "intensity": 1.0
+      },
+      {
+        "type": "time_distortion",
+        "intensity": 0.5
+      }
+    ]
+  },
+  "progression": {
+    "starThresholds": [
+      {
+        "stars": 1,
+        "requirements": {}
+      },
+      {
+        "stars": 2,
+        "requirements": {
+          "objectivesCompleted": ["sequence-master"],
+          "time": 450
+        }
+      },
+      {
+        "stars": 3,
+        "requirements": {
+          "objectivesCompleted": ["sequence-master", "treasure-hunter", "time-master"],
+          "constraintsViolated": 0
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "type": "coins",
+        "value": 2000,
+        "description": "Master completion bonus"
+      },
+      {
+        "type": "achievement",
+        "value": 1,
+        "description": "Labyrinth Master",
+        "id": "labyrinth_master",
+        "rarity": "legendary"
+      },
+      {
+        "type": "unlock",
+        "value": 1,
+        "description": "Master difficulty unlocked",
+        "id": "master_difficulty"
+      },
+      {
+        "type": "cosmetic",
+        "value": 1,
+        "description": "Master's crown",
+        "id": "masters_crown",
+        "rarity": "legendary"
+      }
+    ],
+    "unlocks": [],
+    "prerequisites": ["level-009-speed-demon"]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "id": "level-002-simple-path",
+  "version": 1,
+  "$schema": "https://labyrinth-leap.com/schemas/level-v1.json",
+  "metadata": {
+    "name": "Simple Path",
+    "difficulty": "easy",
+    "estimatedTime": 90,
+    "tags": ["procedural", "easy", "path-finding"],
+    "description": "Navigate through a simple generated maze"
+  },
+  "generation": {
+    "type": "procedural",
+    "seed": 12345,
+    "parameters": {
+      "algorithm": "recursive_backtrack",
+      "complexity": 0.3,
+      "branchingFactor": 0.2,
+      "deadEndRatio": 0.1,
+      "orbCount": 2,
+      "orbPlacement": "path",
+      "minPathLength": 8,
+      "maxPathLength": 15
+    }
+  },
+  "config": {
+    "boardSize": {"width": 5, "height": 5},
+    "objectives": [
+      {
+        "id": "reach-goal",
+        "type": "reach_goal",
+        "target": 1,
+        "description": "Find the exit",
+        "required": true,
+        "priority": 1
+      },
+      {
+        "id": "collect-orbs",
+        "type": "collect_orbs",
+        "target": 2,
+        "description": "Collect both energy orbs",
+        "required": false,
+        "priority": 2
+      }
+    ],
+    "constraints": [
+      {
+        "id": "time-limit",
+        "type": "time_limit",
+        "value": 120,
+        "description": "Complete within 2 minutes",
+        "severity": "warning"
+      }
+    ],
+    "powerups": []
+  },
+  "progression": {
+    "starThresholds": [
+      {
+        "stars": 1,
+        "requirements": {}
+      },
+      {
+        "stars": 2,
+        "requirements": {
+          "orbsCollected": 2
+        }
+      },
+      {
+        "stars": 3,
+        "requirements": {
+          "time": 60,
+          "orbsCollected": 2
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "type": "coins",
+        "value": 75,
+        "description": "Completion bonus"
+      },
+      {
+        "type": "stars",
+        "value": 1,
+        "description": "Star reward"
+      }
+    ],
+    "unlocks": ["level-003-branching-paths"]
+  }
+}

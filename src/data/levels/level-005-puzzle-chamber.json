@@ -1,0 +1,104 @@
+{
+  "id": "level-005-puzzle-chamber",
+  "version": 1,
+  "$schema": "https://labyrinth-leap.com/schemas/level-v1.json",
+  "metadata": {
+    "name": "Puzzle Chamber",
+    "difficulty": "medium",
+    "estimatedTime": 180,
+    "tags": ["handcrafted", "puzzle", "sequence"],
+    "description": "Collect orbs in the correct sequence to unlock the exit"
+  },
+  "generation": {
+    "type": "handcrafted",
+    "layout": {
+      "cells": [
+        [{"walls": 12, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 10, "type": "floor"}],
+        [{"walls": 4, "type": "start"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 4, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 9, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 4, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 6, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 3, "type": "goal"}]
+      ],
+      "startPosition": {"x": 0, "y": 1},
+      "goalPosition": {"x": 4, "y": 4},
+      "orbPositions": [
+        {"x": 1, "y": 2, "value": 20, "id": "orb-red"},
+        {"x": 3, "y": 2, "value": 30, "id": "orb-blue"},
+        {"x": 2, "y": 1, "value": 40, "id": "orb-green"}
+      ],
+      "powerupPositions": [],
+      "specialCells": [
+        {"x": 2, "y": 2, "type": "switch", "properties": {"sequence": ["orb-red", "orb-blue", "orb-green"]}}
+      ]
+    }
+  },
+  "config": {
+    "boardSize": {"width": 5, "height": 5},
+    "objectives": [
+      {
+        "id": "sequence-puzzle",
+        "type": "collect_sequence",
+        "target": 3,
+        "description": "Collect orbs in order: Red → Blue → Green",
+        "required": true,
+        "priority": 1,
+        "conditions": {
+          "sequence": ["orb-red", "orb-blue", "orb-green"]
+        }
+      },
+      {
+        "id": "reach-goal",
+        "type": "reach_goal",
+        "target": 1,
+        "description": "Reach the exit after solving the puzzle",
+        "required": true,
+        "priority": 2
+      }
+    ],
+    "constraints": [
+      {
+        "id": "no-backtrack",
+        "type": "no_backtrack",
+        "value": 1,
+        "description": "Cannot revisit the same cell twice",
+        "severity": "failure"
+      }
+    ],
+    "powerups": []
+  },
+  "progression": {
+    "starThresholds": [
+      {
+        "stars": 1,
+        "requirements": {}
+      },
+      {
+        "stars": 2,
+        "requirements": {
+          "moves": 20
+        }
+      },
+      {
+        "stars": 3,
+        "requirements": {
+          "moves": 15,
+          "time": 120
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "type": "coins",
+        "value": 200,
+        "description": "Puzzle master bonus"
+      },
+      {
+        "type": "achievement",
+        "value": 1,
+        "description": "Puzzle Solver",
+        "id": "puzzle_solver_1"
+      }
+    ],
+    "unlocks": ["level-006-maze-runner"]
+  }
+}

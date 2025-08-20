@@ -1,0 +1,114 @@
+{
+  "id": "level-007-symmetry-challenge",
+  "version": 1,
+  "$schema": "https://labyrinth-leap.com/schemas/level-v1.json",
+  "metadata": {
+    "name": "Symmetry Challenge",
+    "difficulty": "hard",
+    "estimatedTime": 300,
+    "tags": ["procedural", "symmetry", "pattern"],
+    "description": "A perfectly symmetrical maze with mirrored challenges"
+  },
+  "generation": {
+    "type": "procedural",
+    "seed": 56789,
+    "parameters": {
+      "algorithm": "recursive_backtrack",
+      "complexity": 0.7,
+      "branchingFactor": 0.5,
+      "deadEndRatio": 0.3,
+      "orbCount": 8,
+      "orbPlacement": "strategic",
+      "minPathLength": 25,
+      "maxPathLength": 50,
+      "symmetry": "rotational"
+    }
+  },
+  "config": {
+    "boardSize": {"width": 12, "height": 12},
+    "objectives": [
+      {
+        "id": "reach-goal",
+        "type": "reach_goal",
+        "target": 1,
+        "description": "Find the center exit",
+        "required": true,
+        "priority": 1
+      },
+      {
+        "id": "symmetry-bonus",
+        "type": "collect_orbs",
+        "target": 4,
+        "description": "Collect orbs from each quadrant",
+        "required": false,
+        "priority": 2,
+        "conditions": {
+          "quadrants": ["top-left", "top-right", "bottom-left", "bottom-right"]
+        }
+      }
+    ],
+    "constraints": [
+      {
+        "id": "limited-vision",
+        "type": "limited_vision",
+        "value": 3,
+        "description": "Can only see 3 cells ahead",
+        "severity": "warning"
+      },
+      {
+        "id": "time-pressure",
+        "type": "time_limit",
+        "value": 360,
+        "description": "Complete within 6 minutes",
+        "severity": "failure"
+      }
+    ],
+    "powerups": [
+      {
+        "type": "vision_expand",
+        "spawnRate": 0.03,
+        "duration": 20,
+        "effect": "Expands vision range",
+        "stackable": true,
+        "maxStacks": 2
+      }
+    ]
+  },
+  "progression": {
+    "starThresholds": [
+      {
+        "stars": 1,
+        "requirements": {}
+      },
+      {
+        "stars": 2,
+        "requirements": {
+          "orbsCollected": 4,
+          "time": 300
+        }
+      },
+      {
+        "stars": 3,
+        "requirements": {
+          "orbsCollected": 8,
+          "time": 240,
+          "moves": 80
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "type": "coins",
+        "value": 500,
+        "description": "Symmetry master bonus"
+      },
+      {
+        "type": "achievement",
+        "value": 1,
+        "description": "Pattern Recognition",
+        "id": "pattern_master"
+      }
+    ],
+    "unlocks": ["level-008-trap-maze"]
+  }
+}

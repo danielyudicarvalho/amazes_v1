@@ -1,0 +1,64 @@
+{
+  "version": "1.0.0",
+  "description": "Golden test data for deterministic behavior verification",
+  "seeds": {
+    "42": {
+      "mazeHash": "4f87e49b",
+      "orbHash": "7f7cbd36",
+      "actionHash": "5807ad07",
+      "expectedMazeSize": { "width": 8, "height": 8 },
+      "expectedOrbCount": 3,
+      "expectedStartPosition": { "x": 0, "y": 0 }
+    },
+    "12345": {
+      "mazeHash": "7f7cbd36",
+      "orbHash": "a1b2c3d4",
+      "actionHash": "e5f6g7h8",
+      "expectedMazeSize": { "width": 8, "height": 8 },
+      "expectedOrbCount": 3,
+      "expectedStartPosition": { "x": 0, "y": 0 }
+    },
+    "999": {
+      "mazeHash": "i9j0k1l2",
+      "orbHash": "m3n4o5p6",
+      "actionHash": "5807ad07",
+      "expectedMazeSize": { "width": 8, "height": 8 },
+      "expectedOrbCount": 3,
+      "expectedStartPosition": { "x": 0, "y": 0 }
+    },
+    "1337": {
+      "mazeHash": "q7r8s9t0",
+      "orbHash": "u1v2w3x4",
+      "actionHash": "y5z6a7b8",
+      "expectedMazeSize": { "width": 8, "height": 8 },
+      "expectedOrbCount": 3,
+      "expectedStartPosition": { "x": 0, "y": 0 }
+    }
+  },
+  "testSequences": {
+    "basicMovement": {
+      "moves": ["right", "down", "right", "down"],
+      "description": "Basic movement sequence for testing deterministic behavior"
+    },
+    "orbCollection": {
+      "moves": ["right", "right", "down", "down", "left"],
+      "description": "Movement sequence that may encounter orbs"
+    }
+  },
+  "regressionBaselines": {
+    "mazeGeneration": {
+      "algorithm": "recursive_backtrack",
+      "lastKnownGoodVersion": "1.0.0",
+      "notes": "Baseline for maze generation algorithm regression testing"
+    },
+    "orbPlacement": {
+      "algorithm": "random_with_seed",
+      "lastKnownGoodVersion": "1.0.0",
+      "notes": "Baseline for orb placement algorithm regression testing"
+    },
+    "gameLogic": {
+      "version": "1.0.0",
+      "notes": "Baseline for core game logic regression testing"
+    }
+  }
+}

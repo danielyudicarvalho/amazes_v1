@@ -1,0 +1,81 @@
+{
+  "id": "level-001-tutorial",
+  "version": 1,
+  "$schema": "https://labyrinth-leap.com/schemas/level-v1.json",
+  "metadata": {
+    "name": "First Steps",
+    "difficulty": "easy",
+    "estimatedTime": 60,
+    "tags": ["tutorial", "beginner", "introduction"],
+    "description": "Learn the basics of maze navigation",
+    "author": "Game Designer"
+  },
+  "generation": {
+    "type": "handcrafted",
+    "layout": {
+      "cells": [
+        [{"walls": 12, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 10, "type": "floor"}],
+        [{"walls": 4, "type": "start"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
+        [{"walls": 6, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 3, "type": "goal"}]
+      ],
+      "startPosition": {"x": 0, "y": 1},
+      "goalPosition": {"x": 2, "y": 2},
+      "orbPositions": [
+        {"x": 1, "y": 1, "value": 10, "id": "orb-1"}
+      ],
+      "powerupPositions": []
+    }
+  },
+  "config": {
+    "boardSize": {"width": 3, "height": 3},
+    "objectives": [
+      {
+        "id": "reach-goal",
+        "type": "reach_goal",
+        "target": 1,
+        "description": "Reach the exit",
+        "required": true,
+        "priority": 1
+      },
+      {
+        "id": "collect-orb",
+        "type": "collect_orbs",
+        "target": 1,
+        "description": "Collect the energy orb",
+        "required": false,
+        "priority": 2
+      }
+    ],
+    "constraints": [],
+    "powerups": []
+  },
+  "progression": {
+    "starThresholds": [
+      {
+        "stars": 1,
+        "requirements": {}
+      },
+      {
+        "stars": 2,
+        "requirements": {
+          "orbsCollected": 1
+        }
+      },
+      {
+        "stars": 3,
+        "requirements": {
+          "time": 30,
+          "orbsCollected": 1
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "type": "coins",
+        "value": 50,
+        "description": "Completion bonus"
+      }
+    ],
+    "unlocks": ["level-002-simple-path"]
+  }
+}
