@@ -7,21 +7,21 @@
   - Create asset validation and error handling mechanisms
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 5.1, 5.2_
 
-- [ ] 2. Create basic sprite rendering system
+- [x] 2. Create basic sprite rendering system
   - Implement SpriteRenderer class to replace geometric shapes
   - Create sprite factory methods for game objects
   - Add layer management system for proper rendering order
   - Implement sprite positioning and scaling utilities
   - _Requirements: 1.1, 1.4, 5.3_
 
-- [ ] 3. Implement player character sprite system
+- [x] 3. Implement player character sprite system
   - Create player sprite with directional animations
   - Implement movement animation controller
   - Add idle animation states for player character
   - Create sprite update methods tied to game state changes
   - _Requirements: 1.2, 3.1_
 
-- [ ] 4. Develop orb sprite and collection system
+- [x] 4. Develop orb sprite and collection system
   - Create animated orb sprites with floating effects
   - Implement orb collection animation sequences
   - Add particle effects for orb collection feedback

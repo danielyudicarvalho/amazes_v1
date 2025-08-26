@@ -8,6 +8,13 @@ import { submitDailyTime } from '../services/leaderboard'
 import { shareChallenge } from '../services/share'
 import { ProgressManager } from '../managers/ProgressManager'
 import { debugLogger } from '../utils/DebugLogger'
+import { PlayerSpriteSystem } from '../presentation/PlayerSpriteSystem'
+import { SpriteRenderer } from '../presentation/SpriteRenderer'
+import { LayerManager } from '../presentation/LayerManager'
+import { OrbSpriteSystem } from '../presentation/OrbSpriteSystem'
+import { OrbAnimationController } from '../presentation/OrbAnimationController'
+import { ParticleEffectManager } from '../presentation/ParticleEffectManager'
+import { SpriteFactory } from '../presentation/SpriteFactory'
 
 const CELL = 24
 
@@ -32,6 +39,15 @@ export class GameScene extends Phaser.Scene {
   private hintText!: Phaser.GameObjects.Text
   private spaceHintText!: Phaser.GameObjects.Text
   
+  // Enhanced sprite systems
+  private playerSpriteSystem!: PlayerSpriteSystem
+  private spriteRenderer!: SpriteRenderer
+  private layerManager!: LayerManager
+  private orbSpriteSystem!: OrbSpriteSystem
+  private orbAnimationController!: OrbAnimationController
+  private particleEffectManager!: ParticleEffectManager
+  private spriteFactory!: SpriteFactory
+  
   // UI state
   private mazeGraphics!: Phaser.GameObjects.Graphics
 
@@ -51,6 +67,9 @@ export class GameScene extends Phaser.Scene {
     this.gameCore = new GameCore()
     this.levelService = new LevelService()
     this.progressManager = ProgressManager.getInstance()
+
+    // Initialize enhanced sprite systems
+    this.initializeSpriteSystem()
 
     debugLogger.game('Game', 'Core services initialized');
 
@@ -437,9 +456,28 @@ export class GameScene extends Phaser.Scene {
     if (!this.gameState) return
 
     const playerPos = this.gameState.player.position
-    // Blue player circle
-    this.player = this.add.circle(this.cx(playerPos.x), this.cy(playerPos.y), 8, 0x4169E1)
-      .setStrokeStyle(2, 0x1E3A8A)
+    
+    // Create enhanced player sprite using the sprite system
+    try {
+      const playerSprite = this.playerSpriteSystem.createPlayerSprite(playerPos, {
+        theme: 'default',
+        scale: 1,
+        enableInteraction: true
+      })
+      
+      // Keep the old circle as fallback for now
+      this.player = this.add.circle(this.cx(playerPos.x), this.cy(playerPos.y), 8, 0x4169E1)
+        .setStrokeStyle(2, 0x1E3A8A)
+        .setVisible(false) // Hide the fallback circle since we have the sprite
+      
+      debugLogger.game('Game', 'Enhanced player sprite created', { position: playerPos })
+    } catch (error) {
+      console.error('Failed to create enhanced player sprite, using fallback:', error)
+      
+      // Fallback to original circle
+      this.player = this.add.circle(this.cx(playerPos.x), this.cy(playerPos.y), 8, 0x4169E1)
+        .setStrokeStyle(2, 0x1E3A8A)
+    }
   }
 
   private createOrbs() {
@@ -449,15 +487,40 @@ export class GameScene extends Phaser.Scene {
     this.orbs.forEach(orb => orb.destroy())
     this.orbs = []
 
+    try {
+      // Use enhanced orb sprite system if available
+      if (this.orbSpriteSystem) {
+        this.orbSpriteSystem.clearAllOrbs()
+        const orbSprites = this.orbSpriteSystem.createOrbSprites(this.gameState.orbs, 'default')
+        
+        // Convert to legacy orb array for compatibility
+        this.orbs = orbSprites.map(sprite => {
+          // Create a compatibility wrapper that mimics Circle behavior
+          const wrapper = {
+            ...sprite,
+            destroy: () => sprite.destroy(),
+            getData: (key: string) => sprite.getData(key),
+            setData: (key: string, value: any) => sprite.setData(key, value)
+          } as any
+          return wrapper
+        })
+        
+        debugLogger.game('Game', `Created ${orbSprites.length} enhanced orb sprites`)
+        return
+      }
+    } catch (error) {
+      console.warn('Failed to create enhanced orb sprites, falling back to basic shapes:', error)
+    }
+
+    // Fallback to basic geometric orbs
     const colors = [0xFF6B6B, 0x4ECDC4, 0xFFE66D, 0x95E1D3, 0xF38BA8]
 
-    // Create orb objects from game state
     this.gameState.orbs.forEach((orbState, index) => {
       if (!orbState.collected) {
         const color = colors[index % colors.length]
         const orb = this.add.circle(this.cx(orbState.position.x), this.cy(orbState.position.y), 6, color)
           .setStrokeStyle(2, 0x8B4513)
-        orb.setData('orbId', orbState.id) // Store orb ID for reference
+        orb.setData('orbId', orbState.id)
         this.orbs.push(orb)
       }
     })
@@ -741,20 +804,60 @@ export class GameScene extends Phaser.Scene {
     this.arrowButtons.right.setAlpha((cell.walls & 1) ? 1 : 0.4) // East
   }
 
-  private animatePlayerMovement(from: { x: number, y: number }, to: { x: number, y: number }) {
+  private async animatePlayerMovement(from: { x: number, y: number }, to: { x: number, y: number }) {
     if (!this.player) return
     
-    // Animate player movement
-    this.tweens.add({ 
-      targets: this.player, 
-      x: this.cx(to.x), 
-      y: this.cy(to.y), 
-      duration: 150 
-    })
+    // Try to use enhanced sprite system for movement animation
+    try {
+      // Determine direction for animation
+      const direction = this.getMovementDirection(from, to)
+      
+      if (direction && this.playerSpriteSystem) {
+        // Use enhanced sprite system with directional animation
+        await this.playerSpriteSystem.movePlayer(direction, from, to)
+        debugLogger.game('Game', 'Enhanced player movement animation completed', { from, to, direction })
+      } else {
+        throw new Error('Direction calculation failed or sprite system unavailable')
+      }
+    } catch (error) {
+      console.warn('Enhanced player animation failed, using fallback:', error)
+      
+      // Fallback to original circle animation
+      this.tweens.add({ 
+        targets: this.player, 
+        x: this.cx(to.x), 
+        y: this.cy(to.y), 
+        duration: 150 
+      })
+    }
   }
 
-  private animateOrbCollection(orbId: string, position: { x: number, y: number }) {
-    // Find and remove the orb visual
+  private async animateOrbCollection(orbId: string, position: { x: number, y: number }) {
+    try {
+      // Use enhanced orb sprite system if available
+      if (this.orbSpriteSystem) {
+        await this.orbSpriteSystem.animateOrbCollection(orbId, {
+          animationDuration: 500,
+          particleCount: 20,
+          scaleEffect: true,
+          fadeEffect: true,
+          soundSync: true
+        })
+        
+        // Remove from legacy orb array
+        const orbIndex = this.orbs.findIndex(orb => orb.getData('orbId') === orbId)
+        if (orbIndex >= 0) {
+          this.orbs.splice(orbIndex, 1)
+        }
+        
+        debugLogger.game('Game', `Enhanced orb collection animation completed for ${orbId}`)
+        return
+      }
+    } catch (error) {
+      console.warn('Failed to animate enhanced orb collection, falling back to basic animation:', error)
+    }
+
+    // Fallback to basic orb collection animation
     const orbIndex = this.orbs.findIndex(orb => orb.getData('orbId') === orbId)
     if (orbIndex >= 0) {
       const orb = this.orbs[orbIndex]
@@ -1060,8 +1163,94 @@ export class GameScene extends Phaser.Scene {
     })
   }
 
+  private initializeSpriteSystem() {
+    try {
+      // Initialize layer manager for proper rendering order
+      this.layerManager = new LayerManager(this)
+      
+      // Initialize sprite renderer
+      this.spriteRenderer = new SpriteRenderer(this)
+      
+      // Initialize sprite factory
+      this.spriteFactory = new SpriteFactory({
+        scene: this,
+        defaultTheme: 'default',
+        cellSize: CELL
+      })
+      
+      // Initialize orb animation controller
+      this.orbAnimationController = new OrbAnimationController(this)
+      
+      // Initialize particle effect manager
+      this.particleEffectManager = new ParticleEffectManager(this)
+      
+      // Initialize orb sprite system
+      this.orbSpriteSystem = new OrbSpriteSystem(
+        this,
+        this.spriteFactory,
+        this.orbAnimationController,
+        this.particleEffectManager
+      )
+      
+      // Initialize player sprite system
+      this.playerSpriteSystem = new PlayerSpriteSystem({
+        scene: this,
+        gameCore: this.gameCore,
+        spriteRenderer: this.spriteRenderer,
+        layerManager: this.layerManager
+      })
+      
+      debugLogger.game('Game', 'Enhanced sprite systems initialized')
+    } catch (error) {
+      console.error('Failed to initialize sprite systems:', error)
+      // Continue without enhanced sprites - fallback to basic shapes
+    }
+  }
+
+  private getMovementDirection(from: { x: number, y: number }, to: { x: number, y: number }): Direction | null {
+    const dx = to.x - from.x
+    const dy = to.y - from.y
+    
+    // Only allow single-cell movements
+    if (Math.abs(dx) + Math.abs(dy) !== 1) {
+      return null
+    }
+    
+    if (dx === 1) return 'right'
+    if (dx === -1) return 'left'
+    if (dy === 1) return 'down'
+    if (dy === -1) return 'up'
+    
+    return null
+  }
+
   // Cleanup method to unsubscribe from events when scene is destroyed
   destroy() {
+    // Clean up sprite systems
+    if (this.playerSpriteSystem) {
+      this.playerSpriteSystem.destroy()
+    }
+    
+    if (this.orbSpriteSystem) {
+      this.orbSpriteSystem.clearAllOrbs()
+    }
+    
+    if (this.orbAnimationController) {
+      this.orbAnimationController.destroy()
+    }
+    
+    if (this.particleEffectManager) {
+      this.particleEffectManager.destroy()
+    }
+    
+    if (this.layerManager) {
+      this.layerManager.destroy()
+    }
+    
+    if (this.spriteRenderer) {
+      this.spriteRenderer.destroy()
+    }
+    
     if (this.gameCore) {
       // Use removeAllListeners if available, otherwise we'd need to store individual callbacks
       // For now, we'll rely on the scene being destroyed to clean up references

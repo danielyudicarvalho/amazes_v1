@@ -1,0 +1,213 @@
+{
+  "version": "1.0.0",
+  "themes": [
+    {
+      "id": "default",
+      "name": "Forest Adventure",
+      "description": "A nature-themed maze adventure with forest elements",
+      "assets": {
+        "player": {
+          "key": "player_character",
+          "atlas": "characters",
+          "frame": "player_idle_01",
+          "animations": ["player_walk", "player_idle"],
+          "scale": 1.0,
+          "anchor": { "x": 0.5, "y": 0.5 }
+        },
+        "orbs": [
+          {
+            "key": "orb_basic",
+            "atlas": "items",
+            "frame": "orb_01",
+            "animations": ["orb_float", "orb_collect"],
+            "scale": 0.8,
+            "anchor": { "x": 0.5, "y": 0.5 }
+          },
+          {
+            "key": "orb_special",
+            "atlas": "items",
+            "frame": "orb_special_01",
+            "animations": ["orb_special_float", "orb_special_collect"],
+            "scale": 1.0,
+            "anchor": { "x": 0.5, "y": 0.5 }
+          }
+        ],
+        "maze": {
+          "walls": [
+            {
+              "key": "wall_stone",
+              "atlas": "environment",
+              "frame": "wall_stone_01",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            }
+          ],
+          "floors": [
+            {
+              "key": "floor_grass",
+              "atlas": "environment",
+              "frame": "floor_grass_01",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            }
+          ],
+          "backgrounds": [
+            {
+              "key": "bg_forest",
+              "atlas": "backgrounds",
+              "frame": "forest_bg_01",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            }
+          ]
+        },
+        "ui": {
+          "buttons": [
+            {
+              "key": "btn_play",
+              "atlas": "ui",
+              "frame": "button_play_normal",
+              "animations": ["button_hover", "button_press"],
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            }
+          ],
+          "backgrounds": [
+            {
+              "key": "panel_main",
+              "atlas": "ui",
+              "frame": "panel_wood_01",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            }
+          ],
+          "panels": []
+        },
+        "effects": {
+          "particles": [
+            {
+              "key": "sparkle",
+              "atlas": "effects",
+              "frame": "sparkle_01",
+              "scale": 0.5,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            }
+          ],
+          "animations": []
+        }
+      },
+      "colors": {
+        "primary": "#4A7C59",
+        "secondary": "#8FBC8F",
+        "accent": "#FFD700",
+        "background": "#2F4F2F"
+      },
+      "sounds": {
+        "music": ["forest_ambient.ogg"],
+        "effects": ["orb_collect.wav", "step.wav", "button_click.wav"]
+      }
+    }
+  ],
+  "atlases": [
+    {
+      "key": "characters",
+      "imagePath": "/assets/atlases/characters.png",
+      "dataPath": "/assets/atlases/characters.json",
+      "priority": 1
+    },
+    {
+      "key": "items",
+      "imagePath": "/assets/atlases/items.png",
+      "dataPath": "/assets/atlases/items.json",
+      "priority": 2
+    },
+    {
+      "key": "environment",
+      "imagePath": "/assets/atlases/environment.png",
+      "dataPath": "/assets/atlases/environment.json",
+      "priority": 3
+    },
+    {
+      "key": "ui",
+      "imagePath": "/assets/atlases/ui.png",
+      "dataPath": "/assets/atlases/ui.json",
+      "priority": 4
+    },
+    {
+      "key": "effects",
+      "imagePath": "/assets/atlases/effects.png",
+      "dataPath": "/assets/atlases/effects.json",
+      "priority": 5
+    },
+    {
+      "key": "backgrounds",
+      "imagePath": "/assets/atlases/backgrounds.png",
+      "dataPath": "/assets/atlases/backgrounds.json",
+      "priority": 6
+    }
+  ],
+  "animations": [
+    {
+      "key": "player_walk",
+      "atlas": "characters",
+      "frames": [
+        { "frame": "player_walk_01", "duration": 100 },
+        { "frame": "player_walk_02", "duration": 100 },
+        { "frame": "player_walk_03", "duration": 100 },
+        { "frame": "player_walk_04", "duration": 100 }
+      ],
+      "frameRate": 10,
+      "repeat": -1,
+      "yoyo": false
+    },
+    {
+      "key": "player_idle",
+      "atlas": "characters",
+      "frames": [
+        { "frame": "player_idle_01", "duration": 500 },
+        { "frame": "player_idle_02", "duration": 500 }
+      ],
+      "frameRate": 2,
+      "repeat": -1,
+      "yoyo": true
+    },
+    {
+      "key": "orb_float",
+      "atlas": "items",
+      "frames": [
+        { "frame": "orb_01", "duration": 300 },
+        { "frame": "orb_02", "duration": 300 },
+        { "frame": "orb_03", "duration": 300 }
+      ],
+      "frameRate": 3,
+      "repeat": -1,
+      "yoyo": true
+    }
+  ],
+  "particles": [
+    {
+      "key": "orb_collect_sparkles",
+      "texture": "sparkle",
+      "config": {
+        "scale": { "start": 0.5, "end": 0.1 },
+        "speed": { "min": 50, "max": 150 },
+        "lifespan": { "min": 300, "max": 800 },
+        "alpha": { "start": 1.0, "end": 0.0 },
+        "tint": [16777215, 16776960, 65535],
+        "blendMode": "ADD"
+      }
+    },
+    {
+      "key": "movement_dust",
+      "texture": "dust_particle",
+      "config": {
+        "scale": { "start": 0.3, "end": 0.0 },
+        "speed": { "min": 20, "max": 60 },
+        "lifespan": { "min": 200, "max": 500 },
+        "alpha": { "start": 0.6, "end": 0.0 },
+        "tint": [8947848, 6710886],
+        "blendMode": "NORMAL"
+      }
+    }
+  ]
+}
