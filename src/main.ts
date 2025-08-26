@@ -3,6 +3,7 @@ import { GameScene } from './scenes/GameScene'
 import { BootScene } from './scenes/BootScene'
 import { LevelSelectScene } from './scenes/LevelSelectScene'
 import { initFirebase } from './services/firebase'
+import './utils/DebugInit' // Initialize debug system
 
 initFirebase()
 

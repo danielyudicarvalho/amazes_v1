@@ -11,23 +11,21 @@
   },
   "generation": {
     "type": "procedural",
-    "seed": 67890,
+    "seed": 89012,
     "parameters": {
-      "algorithm": "kruskal",
-      "complexity": 0.8,
-      "branchingFactor": 0.6,
-      "deadEndRatio": 0.4,
-      "orbCount": 10,
-      "orbPlacement": "random",
-      "minPathLength": 30,
-      "maxPathLength": 60
+      "algorithm": "prim",
+      "complexity": 0.85,
+      "branchingFactor": 0.7,
+      "orbCount": 6,
+      "orbPlacement": "balanced",
+      "deadEndReduction": 0.15
     }
   },
   "config": {
     "boardSize": {"width": 15, "height": 15},
     "objectives": [
       {
-        "id": "speed-run",
+        "id": "reach-goal",
         "type": "reach_goal",
         "target": 1,
         "description": "Reach the exit as fast as possible",
@@ -35,20 +33,12 @@
         "priority": 1
       },
       {
-        "id": "time-attack-30",
-        "type": "time_limit",
-        "target": 30,
-        "description": "Complete in under 30 seconds",
+        "id": "collect-orbs",
+        "type": "collect_orbs",
+        "target": 4,
+        "description": "Collect at least 4 orbs while speed running",
         "required": false,
         "priority": 2
-      },
-      {
-        "id": "perfect-run",
-        "type": "collect_orbs",
-        "target": 5,
-        "description": "Collect 5 orbs while speed running",
-        "required": false,
-        "priority": 3
       }
     ],
     "constraints": [
@@ -109,7 +99,7 @@
         "stars": 3,
         "requirements": {
           "time": 30,
-          "orbsCollected": 5
+          "orbsCollected": 6
         }
       }
     ],

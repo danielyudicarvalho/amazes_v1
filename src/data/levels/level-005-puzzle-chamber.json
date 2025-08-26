@@ -5,63 +5,49 @@
   "metadata": {
     "name": "Puzzle Chamber",
     "difficulty": "medium",
-    "estimatedTime": 180,
-    "tags": ["handcrafted", "puzzle", "sequence"],
-    "description": "Collect orbs in the correct sequence to unlock the exit"
+    "estimatedTime": 240,
+    "tags": ["procedural", "medium", "exploration"],
+    "description": "Navigate through a more complex maze with multiple orbs to collect"
   },
   "generation": {
-    "type": "handcrafted",
-    "layout": {
-      "cells": [
-        [{"walls": 12, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 10, "type": "floor"}],
-        [{"walls": 4, "type": "start"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
-        [{"walls": 4, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 9, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 2, "type": "floor"}],
-        [{"walls": 4, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
-        [{"walls": 6, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 3, "type": "goal"}]
-      ],
-      "startPosition": {"x": 0, "y": 1},
-      "goalPosition": {"x": 4, "y": 4},
-      "orbPositions": [
-        {"x": 1, "y": 2, "value": 20, "id": "orb-red"},
-        {"x": 3, "y": 2, "value": 30, "id": "orb-blue"},
-        {"x": 2, "y": 1, "value": 40, "id": "orb-green"}
-      ],
-      "powerupPositions": [],
-      "specialCells": [
-        {"x": 2, "y": 2, "type": "switch", "properties": {"sequence": ["orb-red", "orb-blue", "orb-green"]}}
-      ]
+    "type": "procedural",
+    "seed": 67890,
+    "parameters": {
+      "algorithm": "prim",
+      "complexity": 0.7,
+      "branchingFactor": 0.5,
+      "orbCount": 3,
+      "orbPlacement": "balanced",
+      "deadEndReduction": 0.3
     }
   },
   "config": {
-    "boardSize": {"width": 5, "height": 5},
+    "boardSize": {"width": 9, "height": 9},
     "objectives": [
-      {
-        "id": "sequence-puzzle",
-        "type": "collect_sequence",
-        "target": 3,
-        "description": "Collect orbs in order: Red → Blue → Green",
-        "required": true,
-        "priority": 1,
-        "conditions": {
-          "sequence": ["orb-red", "orb-blue", "orb-green"]
-        }
-      },
       {
         "id": "reach-goal",
         "type": "reach_goal",
         "target": 1,
-        "description": "Reach the exit after solving the puzzle",
+        "description": "Navigate through the puzzle chamber to reach the exit",
         "required": true,
+        "priority": 1
+      },
+      {
+        "id": "collect-orbs",
+        "type": "collect_orbs",
+        "target": 3,
+        "description": "Collect all energy orbs for maximum points",
+        "required": false,
         "priority": 2
       }
     ],
     "constraints": [
       {
-        "id": "no-backtrack",
-        "type": "no_backtrack",
-        "value": 1,
-        "description": "Cannot revisit the same cell twice",
-        "severity": "failure"
+        "id": "time-challenge",
+        "type": "time_limit",
+        "value": 300,
+        "description": "Complete within 5 minutes",
+        "severity": "warning"
       }
     ],
     "powerups": []

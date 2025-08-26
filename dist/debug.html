@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Debug Console</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #00ff00;
+            margin: 0;
+            padding: 10px;
+            font-size: 12px;
+        }
+        
+        .header {
+            background: #111;
+            padding: 10px;
+            border: 1px solid #00ff00;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background: #000;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 10px;
+        }
+        
+        button:hover {
+            background: #00ff0020;
+        }
+        
+        button:active {
+            background: #00ff0040;
+        }
+        
+        .log-container {
+            height: 400px;
+            overflow-y: auto;
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 2px 0;
+        }
+        
+        .log-click { color: #00ff00; }
+        .log-touch { color: #00ffff; }
+        .log-scene { color: #ffff00; }
+        .log-level { color: #ff8800; }
+        .log-game { color: #8800ff; }
+        .log-error { color: #ff0000; }
+        .log-info { color: #ffffff; }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .stat-box {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .export-area {
+            margin-top: 10px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 100px;
+            background: #111;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            font-family: inherit;
+            font-size: 10px;
+            padding: 5px;
+        }
+        
+        .touch-indicator {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff0000;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 10000;
+            animation: pulse 0.5s ease-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>🐛 Maze Debug Console</h2>
+        <div id="status">Initializing...</div>
+    </div>
+    
+    <div class="controls">
+        <button onclick="clearLogs()">🗑️ Clear</button>
+        <button onclick="exportLogs()">📋 Export</button>
+        <button onclick="toggleAutoScroll()">📜 Auto-scroll: <span id="autoscroll-status">ON</span></button>
+        <button onclick="toggleTouchIndicators()">👆 Touch Indicators: <span id="touch-status">OFF</span></button>
+        <button onclick="testLogs()">🧪 Test</button>
+        <button onclick="refreshStats()">📊 Refresh Stats</button>
+    </div>
+    
+    <div class="stats">
+        <div class="stat-box">
+            <div>Total Events</div>
+            <div id="total-events">0</div>
+        </div>
+        <div class="stat-box">
+            <div>Clicks</div>
+            <div id="click-count">0</div>
+        </div>
+        <div class="stat-box">
+            <div>Touches</div>
+            <div id="touch-count">0</div>
+        </div>
+        <div class="stat-box">
+            <div>Errors</div>
+            <div id="error-count">0</div>
+        </div>
+    </div>
+    
+    <div class="log-container" id="log-container"></div>
+    
+    <div class="export-area">
+        <h3>Export Logs:</h3>
+        <textarea id="export-textarea" placeholder="Exported logs will appear here..."></textarea>
+        <button onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+    </div>
+
+    <script>
+        let logs = [];
+        let autoScroll = true;
+        let touchIndicators = false;
+        let logContainer = document.getElementById('log-container');
+        let statusElement = document.getElementById('status');
+        
+        // Initialize
+        function init() {
+            statusElement.textContent = 'Debug console ready';
+            
+            // Try to connect to parent window debug system
+            if (window.parent && window.parent.debug) {
+                statusElement.textContent = 'Connected to main app debug system';
+                
+                // Poll for new logs
+                setInterval(updateLogs, 1000);
+            } else {
+                statusElement.textContent = 'Standalone debug console';
+                
+                // Add some sample logs
+                addLog('info', 'Debug', 'Debug console initialized', {});
+            }
+            
+            // Add touch event listeners for this debug page
+            document.addEventListener('click', handleDebugClick);
+            document.addEventListener('touchstart', handleDebugTouch);
+            
+            refreshStats();
+        }
+        
+        function updateLogs() {
+            try {
+                if (window.parent && window.parent.debug) {
+                    const parentLogs = window.parent.debug.export();
+                    if (parentLogs) {
+                        const newLogs = JSON.parse(parentLogs);
+                        if (newLogs.length !== logs.length) {
+                            logs = newLogs;
+                            renderLogs();
+                            refreshStats();
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to update logs:', e);
+            }
+        }
+        
+        function addLog(type, category, message, data, position) {
+            const log = {
+                timestamp: Date.now(),
+                type,
+                category,
+                message,
+                data,
+                position
+            };
+            
+            logs.push(log);
+            
+            // Keep only last 100 logs
+            if (logs.length > 100) {
+                logs = logs.slice(-100);
+            }
+            
+            renderLogs();
+            refreshStats();
+        }
+        
+        function renderLogs() {
+            const html = logs.map(log => {
+                const time = new Date(log.timestamp).toLocaleTimeString();
+                const posStr = log.position ? ` @(${log.position.x},${log.position.y})` : '';
+                const dataStr = log.data && Object.keys(log.data).length > 0 ? 
+                    `\\n${JSON.stringify(log.data, null, 2)}` : '';
+                
+                return `<div class="log-entry log-${log.type}">
+                    [${time}] ${log.type.toUpperCase()} | ${log.category} | ${log.message}${posStr}${dataStr}
+                </div>`;
+            }).join('');
+            
+            logContainer.innerHTML = html;
+            
+            if (autoScroll) {
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
+        }
+        
+        function clearLogs() {
+            logs = [];
+            renderLogs();
+            refreshStats();
+            
+            // Clear parent logs if connected
+            if (window.parent && window.parent.debug) {
+                window.parent.debug.clear();
+            }
+        }
+        
+        function exportLogs() {
+            const exportData = JSON.stringify(logs, null, 2);
+            document.getElementById('export-textarea').value = exportData;
+        }
+        
+        function copyToClipboard() {
+            const textarea = document.getElementById('export-textarea');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Logs copied to clipboard!');
+        }
+        
+        function toggleAutoScroll() {
+            autoScroll = !autoScroll;
+            document.getElementById('autoscroll-status').textContent = autoScroll ? 'ON' : 'OFF';
+        }
+        
+        function toggleTouchIndicators() {
+            touchIndicators = !touchIndicators;
+            document.getElementById('touch-status').textContent = touchIndicators ? 'ON' : 'OFF';
+        }
+        
+        function testLogs() {
+            addLog('info', 'Test', 'Test info message', { test: true });
+            addLog('click', 'Test', 'Test click', { button: 'left' }, { x: 100, y: 100 });
+            addLog('error', 'Test', 'Test error', { error: 'Sample error' });
+            addLog('game', 'Test', 'Test game event', { level: 1, score: 100 });
+        }
+        
+        function refreshStats() {
+            const stats = {
+                total: logs.length,
+                clicks: logs.filter(l => l.type === 'click').length,
+                touches: logs.filter(l => l.type === 'touch').length,
+                errors: logs.filter(l => l.type === 'error').length
+            };
+            
+            document.getElementById('total-events').textContent = stats.total;
+            document.getElementById('click-count').textContent = stats.clicks;
+            document.getElementById('touch-count').textContent = stats.touches;
+            document.getElementById('error-count').textContent = stats.errors;
+        }
+        
+        function handleDebugClick(event) {
+            const position = { x: event.clientX, y: event.clientY };
+            addLog('click', 'DebugConsole', `Click on debug console`, {
+                target: event.target.tagName,
+                button: event.button
+            }, position);
+            
+            if (touchIndicators) {
+                showTouchIndicator(position, '#00ff00');
+            }
+        }
+        
+        function handleDebugTouch(event) {
+            Array.from(event.touches).forEach(touch => {
+                const position = { x: touch.clientX, y: touch.clientY };
+                addLog('touch', 'DebugConsole', `Touch on debug console`, {
+                    touchId: touch.identifier
+                }, position);
+                
+                if (touchIndicators) {
+                    showTouchIndicator(position, '#00ffff');
+                }
+            });
+        }
+        
+        function showTouchIndicator(position, color) {
+            const indicator = document.createElement('div');
+            indicator.className = 'touch-indicator';
+            indicator.style.left = (position.x - 10) + 'px';
+            indicator.style.top = (position.y - 10) + 'px';
+            indicator.style.borderColor = color;
+            indicator.style.backgroundColor = color + '33';
+            
+            document.body.appendChild(indicator);
+            
+            setTimeout(() => {
+                if (indicator.parentNode) {
+                    indicator.parentNode.removeChild(indicator);
+                }
+            }, 500);
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', init);
+        
+        // Handle messages from parent window
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'debug-log') {
+                const { logType, category, message, data, position } = event.data;
+                addLog(logType, category, message, data, position);
+            }
+        });
+    </script>
+</body>
+</html>

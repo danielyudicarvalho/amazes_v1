@@ -7,6 +7,7 @@ import { LevelService } from '../services/LevelService'
 import { submitDailyTime } from '../services/leaderboard'
 import { shareChallenge } from '../services/share'
 import { ProgressManager } from '../managers/ProgressManager'
+import { debugLogger } from '../utils/DebugLogger'
 
 const CELL = 24
 
@@ -37,6 +38,12 @@ export class GameScene extends Phaser.Scene {
   constructor() { super('Game') }
 
   create() {
+    debugLogger.scene('Game', 'Game scene created', {
+      sceneKey: this.scene.key,
+      scaleWidth: this.scale.width,
+      scaleHeight: this.scale.height
+    });
+
     // Set beige background
     this.cameras.main.setBackgroundColor('#F5E6D3')
 
@@ -45,18 +52,32 @@ export class GameScene extends Phaser.Scene {
     this.levelService = new LevelService()
     this.progressManager = ProgressManager.getInstance()
 
+    debugLogger.game('Game', 'Core services initialized');
+
     // Subscribe to core events
     this.subscribeToGameEvents()
 
     // Get level from registry or use current level
-    const selectedLevel = this.registry.get('selectedLevel') || this.progressManager.getCurrentLevel()
-    this.currentLevel = selectedLevel
+    const selectedLevelId = this.registry.get('selectedLevelId')
+    const selectedLevelDefinition = this.registry.get('selectedLevelDefinition')
+    
+    if (selectedLevelId) {
+      debugLogger.game('Game', `Using selected level: ${selectedLevelId}`);
+      this.currentLevel = selectedLevelId;
+    } else {
+      debugLogger.game('Game', 'No selected level, using current level from progress manager');
+      this.currentLevel = this.progressManager.getCurrentLevel();
+    }
 
-    this.initLevel()
+    this.initLevel(selectedLevelDefinition)
   }
 
-  private async initLevel() {
+  private async initLevel(levelDefinition?: LevelDefinition) {
     try {
+      debugLogger.game('Game', `Initializing level: ${this.currentLevel}`, {
+        hasPreloadedDefinition: !!levelDefinition
+      });
+
       // Clear previous elements
       this.children.removeAll()
       this.orbs = []
@@ -65,11 +86,23 @@ export class GameScene extends Phaser.Scene {
       this.input.off('pointerdown')
       this.input.off('pointermove')
 
-      // Load level definition
-      const levelDefinition = await this.levelService.loadLevel(this.currentLevel.toString())
+      // Use preloaded level definition or load it
+      let finalLevelDefinition: LevelDefinition;
+      if (levelDefinition) {
+        debugLogger.game('Game', 'Using preloaded level definition');
+        finalLevelDefinition = levelDefinition;
+      } else {
+        debugLogger.game('Game', `Loading level definition for: ${this.currentLevel}`);
+        finalLevelDefinition = await this.levelService.loadLevel(this.currentLevel.toString());
+      }
       
       // Initialize game core with level
-      this.gameCore.initializeLevel(levelDefinition)
+      debugLogger.game('Game', 'Initializing GameCore with level definition', {
+        levelId: finalLevelDefinition.id,
+        levelName: finalLevelDefinition.metadata.name,
+        generationType: finalLevelDefinition.generation.type
+      });
+      this.gameCore.initializeLevel(finalLevelDefinition)
       
       // Get initial game state
       this.gameState = this.gameCore.getGameState()
@@ -225,6 +258,28 @@ export class GameScene extends Phaser.Scene {
   private createUI() {
     if (!this.gameState) return
 
+    // Back button (top-left corner)
+    const backButton = this.add.text(20, 20, '← Back', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '16px',
+      color: '#FFFFFF',
+      backgroundColor: '#8B7355',
+      padding: { x: 12, y: 6 }
+    }).setOrigin(0, 0).setInteractive({ useHandCursor: true })
+
+    backButton.on('pointerdown', () => {
+      debugLogger.click('Game', 'Back button clicked - returning to level select')
+      this.scene.start('LevelSelect')
+    })
+
+    // Add hover effect for back button
+    backButton.on('pointerover', () => {
+      backButton.setStyle({ backgroundColor: '#A0522D' })
+    })
+    backButton.on('pointerout', () => {
+      backButton.setStyle({ backgroundColor: '#8B7355' })
+    })
+
     // Title
     this.titleText = this.add.text(this.scale.width / 2, 50, 'Labyrinth Leap', {
       fontFamily: 'Arial, sans-serif',
@@ -263,6 +318,28 @@ export class GameScene extends Phaser.Scene {
       color: '#D2691E',
       fontStyle: 'bold'
     }).setOrigin(0.5)
+
+    // Pause/Menu button (top-right corner)
+    const pauseButton = this.add.text(this.scale.width - 20, 20, '⏸ Menu', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '16px',
+      color: '#FFFFFF',
+      backgroundColor: '#D2691E',
+      padding: { x: 12, y: 6 }
+    }).setOrigin(1, 0).setInteractive({ useHandCursor: true })
+
+    pauseButton.on('pointerdown', () => {
+      debugLogger.click('Game', 'Pause/Menu button clicked')
+      this.showPauseMenu()
+    })
+
+    // Add hover effect for pause button
+    pauseButton.on('pointerover', () => {
+      pauseButton.setStyle({ backgroundColor: '#CD853F' })
+    })
+    pauseButton.on('pointerout', () => {
+      pauseButton.setStyle({ backgroundColor: '#D2691E' })
+    })
 
     // Hint text
     this.hintText = this.add.text(this.scale.width / 2, 150, 'Collect all the orbs to unlock the goal!', {
@@ -715,28 +792,95 @@ export class GameScene extends Phaser.Scene {
 
   private showCompletionUI(result: any) {
     const timeMs = this.gameCore.getCurrentTime()
+    const currentLevelDefinition = this.gameCore.getCurrentLevelDefinition()
 
     // Show completion message
-    this.add.text(this.scale.width / 2, this.scale.height / 2 - 20,
-      `Level ${this.currentLevel} Complete!`,
-      { fontFamily: 'Arial, sans-serif', fontSize: '20px', color: '#7FB069', backgroundColor: '#F5E6D3', padding: { x: 15, y: 8 } }
+    this.add.text(this.scale.width / 2, this.scale.height / 2 - 60,
+      `Level Complete!`,
+      { fontFamily: 'Arial, sans-serif', fontSize: '24px', color: '#7FB069', backgroundColor: '#F5E6D3', padding: { x: 20, y: 10 } }
     ).setOrigin(0.5)
+
+    // Show level name
+    if (currentLevelDefinition) {
+      this.add.text(this.scale.width / 2, this.scale.height / 2 - 30,
+        currentLevelDefinition.metadata.name,
+        { fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#8B7355', backgroundColor: '#F5E6D3', padding: { x: 15, y: 5 } }
+      ).setOrigin(0.5)
+    }
 
     const minutes = Math.floor(timeMs / 60000)
     const seconds = Math.floor((timeMs % 60000) / 1000)
-    this.add.text(this.scale.width / 2, this.scale.height / 2 + 10,
+    this.add.text(this.scale.width / 2, this.scale.height / 2,
       `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`,
       { fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#8B7355', backgroundColor: '#F5E6D3', padding: { x: 15, y: 8 } }
     ).setOrigin(0.5)
 
+    // Show score if available
+    if (result && result.score !== undefined) {
+      this.add.text(this.scale.width / 2, this.scale.height / 2 + 30,
+        `Score: ${result.score}`,
+        { fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#8B7355', backgroundColor: '#F5E6D3', padding: { x: 15, y: 8 } }
+      ).setOrigin(0.5)
+    }
+
+    // Add continue button
+    const continueButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 70,
+      'Continue',
+      { fontFamily: 'Arial, sans-serif', fontSize: '18px', color: '#FFFFFF', backgroundColor: '#7FB069', padding: { x: 20, y: 10 } }
+    ).setOrigin(0.5).setInteractive({ useHandCursor: true })
+
+    continueButton.on('pointerdown', () => {
+      this.handleLevelCompletion(currentLevelDefinition)
+    })
+
     // Submit time in background
     submitDailyTime(timeMs).catch(() => { })
 
-    // Advance to next level
-    this.time.delayedCall(2000, () => {
-      this.currentLevel++
-      this.initLevel()
+    // Auto-advance after 5 seconds if no interaction
+    this.time.delayedCall(5000, () => {
+      if (continueButton.active) {
+        this.handleLevelCompletion(currentLevelDefinition)
+      }
     })
+  }
+
+  private async handleLevelCompletion(currentLevelDefinition: LevelDefinition | null) {
+    try {
+      if (!currentLevelDefinition) {
+        debugLogger.error('Game', 'No current level definition for completion handling')
+        this.scene.start('LevelSelect')
+        return
+      }
+
+      // Update progress
+      const timeMs = this.gameCore.getCurrentTime()
+      this.progressManager.completeLevel(currentLevelDefinition.id, timeMs, 3) // Assuming 3 stars for now
+
+      // Check if there's a next level to unlock
+      const unlockedLevels = currentLevelDefinition.progression.unlocks
+      if (unlockedLevels && unlockedLevels.length > 0) {
+        const nextLevelId = unlockedLevels[0] // Take the first unlocked level
+        debugLogger.game('Game', `Advancing to next level: ${nextLevelId}`)
+        
+        try {
+          // Load and start the next level
+          const nextLevelDefinition = await this.levelService.loadLevel(nextLevelId)
+          this.registry.set('selectedLevelId', nextLevelId)
+          this.registry.set('selectedLevelDefinition', nextLevelDefinition)
+          this.scene.restart()
+        } catch (error) {
+          debugLogger.error('Game', `Failed to load next level: ${nextLevelId}`, error)
+          this.scene.start('LevelSelect')
+        }
+      } else {
+        // No more levels, return to level select
+        debugLogger.game('Game', 'No more levels available, returning to level select')
+        this.scene.start('LevelSelect')
+      }
+    } catch (error) {
+      debugLogger.error('Game', 'Error handling level completion', error)
+      this.scene.start('LevelSelect')
+    }
   }
 
   private showMoveBlockedFeedback(direction: string, reason?: string) {
@@ -751,6 +895,102 @@ export class GameScene extends Phaser.Scene {
         ease: 'Power2'
       })
     }
+  }
+
+  private showPauseMenu() {
+    // Pause the game
+    if (this.gameCore.getGameState().status === 'playing') {
+      this.gameCore.pauseGame()
+    }
+
+    // Create semi-transparent overlay
+    const overlay = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x000000, 0.7)
+    overlay.setData('isPauseMenu', true)
+
+    // Create pause menu container
+    const menuContainer = this.add.container(this.scale.width / 2, this.scale.height / 2)
+    menuContainer.setData('isPauseMenu', true)
+
+    // Menu background
+    const menuBg = this.add.rectangle(0, 0, 280, 320, 0xF5E6D3, 1).setStrokeStyle(3, 0x8B7355)
+    menuContainer.add(menuBg)
+
+    // Menu title
+    const menuTitle = this.add.text(0, -120, 'Game Paused', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '24px',
+      color: '#7FB069',
+      fontStyle: 'bold'
+    }).setOrigin(0.5)
+    menuContainer.add(menuTitle)
+
+    // Resume button
+    const resumeButton = this.add.text(0, -60, 'Resume', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '18px',
+      color: '#FFFFFF',
+      backgroundColor: '#7FB069',
+      padding: { x: 20, y: 10 }
+    }).setOrigin(0.5).setInteractive({ useHandCursor: true })
+
+    resumeButton.on('pointerdown', () => {
+      this.hidePauseMenu()
+      this.gameCore.resumeGame()
+    })
+    menuContainer.add(resumeButton)
+
+    // Restart button
+    const restartButton = this.add.text(0, -10, 'Restart Level', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '18px',
+      color: '#FFFFFF',
+      backgroundColor: '#D2691E',
+      padding: { x: 20, y: 10 }
+    }).setOrigin(0.5).setInteractive({ useHandCursor: true })
+
+    restartButton.on('pointerdown', () => {
+      this.hidePauseMenu()
+      this.gameCore.resetGame()
+    })
+    menuContainer.add(restartButton)
+
+    // Level Select button
+    const levelSelectButton = this.add.text(0, 40, 'Level Select', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '18px',
+      color: '#FFFFFF',
+      backgroundColor: '#8B7355',
+      padding: { x: 20, y: 10 }
+    }).setOrigin(0.5).setInteractive({ useHandCursor: true })
+
+    levelSelectButton.on('pointerdown', () => {
+      this.hidePauseMenu()
+      this.scene.start('LevelSelect')
+    })
+    menuContainer.add(levelSelectButton)
+
+    // Add hover effects
+    const buttons = [resumeButton, restartButton, levelSelectButton]
+    const hoverColors = ['#8FD17A', '#E6A85C', '#A0522D']
+    const originalColors = ['#7FB069', '#D2691E', '#8B7355']
+
+    buttons.forEach((button, index) => {
+      button.on('pointerover', () => {
+        button.setStyle({ backgroundColor: hoverColors[index] })
+      })
+      button.on('pointerout', () => {
+        button.setStyle({ backgroundColor: originalColors[index] })
+      })
+    })
+  }
+
+  private hidePauseMenu() {
+    // Remove all pause menu elements
+    this.children.list.forEach(child => {
+      if (child.getData('isPauseMenu')) {
+        child.destroy()
+      }
+    })
   }
 
   private showScorePopup(position: { x: number, y: number }, score: number) {

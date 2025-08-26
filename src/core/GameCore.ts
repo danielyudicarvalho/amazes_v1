@@ -12,7 +12,7 @@ import {
 } from './types/Events';
 import { EventEmitter } from './GameEvents';
 import { GameStateManager } from './GameState';
-import { genMaze } from '../engine/MazeGen';
+import { genMaze, generateMaze, MazeGenerationOptions, validateMaze, getReachablePositions } from '../engine/MazeGen';
 import { SeededRandom } from '../utils/rng';
 
 /**
@@ -110,6 +110,13 @@ export interface IGameCore {
    * @returns Elapsed time since game start, excluding pause duration
    */
   getCurrentTime(): number;
+
+  /**
+   * Gets the current level definition.
+   * 
+   * @returns The currently loaded level definition, or null if no level is loaded
+   */
+  getCurrentLevelDefinition(): LevelDefinition | null;
 
   // Event Management
 
@@ -565,6 +572,10 @@ export class GameCore implements IGameCore {
     return elapsed - this.totalPausedTime - pausedTime;
   }
 
+  getCurrentLevelDefinition(): LevelDefinition | null {
+    return this.currentLevelDefinition;
+  }
+
   // Event system delegation
   on<T extends GameEventType>(event: T, callback: EventCallback<T>): void {
     this.eventEmitter.on(event, callback);
@@ -855,32 +866,48 @@ export class GameCore implements IGameCore {
     const { width, height } = levelDefinition.config.boardSize;
     const parameters = levelDefinition.generation.parameters;
 
-    // Generate maze using the MazeGen algorithm
-    const rawMaze = genMaze(width, height, () => rng.next());
+    // Generate maze using Prim's algorithm with enhanced options
+    const mazeOptions: MazeGenerationOptions = {
+      width,
+      height,
+      algorithm: (parameters?.algorithm as 'prim' | 'recursive-backtrack') || 'prim'
+    };
+
+    const mazeResult = generateMaze(mazeOptions, () => rng.next());
+    
+    // Determine start and goal positions
+    const startPos = { x: 0, y: 0 };
+    const goalPos = { x: width - 1, y: height - 1 };
 
     // Convert raw maze to MazeCell format
-    const maze: MazeCell[][] = rawMaze.map((row, y) =>
+    const maze: MazeCell[][] = mazeResult.maze.map((row, y) =>
       row.map((cell, x) => ({
         walls: cell,
-        type: (x === 0 && y === 0) ? 'special' :
-          (x === width - 1 && y === height - 1) ? 'special' : 'floor',
+        type: (x === startPos.x && y === startPos.y) ? 'start' :
+          (x === goalPos.x && y === goalPos.y) ? 'goal' : 'floor',
         properties: {
-          isStart: x === 0 && y === 0,
-          isGoal: x === width - 1 && y === height - 1,
+          isStart: x === startPos.x && y === startPos.y,
+          isGoal: x === goalPos.x && y === goalPos.y,
           isVisited: false
         }
       }))
     );
 
-    // Generate orbs
-    const orbs = this.generateOrbs(levelDefinition, rng, maze);
+    // Validate maze is solvable
+    const validation = validateMaze(mazeResult.maze, startPos, goalPos);
+    if (!validation.isSolvable) {
+      throw new Error('Generated maze is not solvable');
+    }
+
+    // Generate orbs using intelligent placement
+    const orbs = this.generateOrbsIntelligent(levelDefinition, rng, mazeResult.maze, startPos, goalPos);
 
     // Update game state with generated maze and orbs
     this.gameState = GameStateManager.updateState(this.gameState, {
       maze,
       orbs,
       player: {
-        position: { x: 0, y: 0 } // Start at top-left
+        position: startPos
       }
     });
   }
@@ -923,6 +950,98 @@ export class GameCore implements IGameCore {
         position: layout.startPosition
       }
     });
+  }
+
+  private generateOrbsIntelligent(
+    levelDefinition: LevelDefinition, 
+    rng: SeededRandom, 
+    rawMaze: number[][], 
+    startPos: Position, 
+    goalPos: Position
+  ): OrbState[] {
+    const parameters = levelDefinition.generation.parameters;
+    if (!parameters) return [];
+
+    const orbs: OrbState[] = [];
+    const { width, height } = levelDefinition.config.boardSize;
+    const orbCount = parameters.orbCount || 2;
+
+    // Get all reachable positions from start
+    const reachablePositions = getReachablePositions(rawMaze, startPos);
+    const availablePositions: Position[] = [];
+
+    // Convert reachable positions to array, excluding start and goal
+    for (const posKey of reachablePositions) {
+      const [x, y] = posKey.split(',').map(Number);
+      if ((x !== startPos.x || y !== startPos.y) && (x !== goalPos.x || y !== goalPos.y)) {
+        availablePositions.push({ x, y });
+      }
+    }
+
+    if (availablePositions.length === 0) return [];
+
+    // Intelligent placement based on strategy
+    const placement = parameters.orbPlacement || 'random';
+    let selectedPositions: Position[] = [];
+
+    if (placement === 'balanced') {
+      // Place orbs at strategic distances from start and goal
+      selectedPositions = this.selectBalancedOrbPositions(availablePositions, startPos, goalPos, orbCount, rng);
+    } else {
+      // Random placement
+      const shuffled = rng.shuffle([...availablePositions]);
+      selectedPositions = shuffled.slice(0, Math.min(orbCount, shuffled.length));
+    }
+
+    // Create orb states
+    selectedPositions.forEach((pos, index) => {
+      orbs.push({
+        id: `orb_${index + 1}`,
+        position: pos,
+        collected: false,
+        value: 10 + (index * 5) // Increasing value for later orbs
+      });
+    });
+
+    return orbs;
+  }
+
+  private selectBalancedOrbPositions(
+    availablePositions: Position[],
+    startPos: Position,
+    goalPos: Position,
+    orbCount: number,
+    rng: SeededRandom
+  ): Position[] {
+    if (availablePositions.length === 0) return [];
+
+    // Calculate distances from start for each position
+    const positionsWithDistance = availablePositions.map(pos => ({
+      position: pos,
+      distanceFromStart: Math.abs(pos.x - startPos.x) + Math.abs(pos.y - startPos.y),
+      distanceFromGoal: Math.abs(pos.x - goalPos.x) + Math.abs(pos.y - goalPos.y)
+    }));
+
+    // Sort by distance from start to create a progression
+    positionsWithDistance.sort((a, b) => a.distanceFromStart - b.distanceFromStart);
+
+    const selected: Position[] = [];
+    const totalPositions = positionsWithDistance.length;
+
+    for (let i = 0; i < orbCount && i < totalPositions; i++) {
+      // Select positions at regular intervals to create balanced distribution
+      const segmentSize = Math.floor(totalPositions / orbCount);
+      const segmentStart = i * segmentSize;
+      const segmentEnd = Math.min(segmentStart + segmentSize, totalPositions);
+      
+      if (segmentStart < totalPositions) {
+        // Add some randomness within the segment
+        const randomIndex = segmentStart + Math.floor(rng.next() * (segmentEnd - segmentStart));
+        selected.push(positionsWithDistance[randomIndex].position);
+      }
+    }
+
+    return selected;
   }
 
   private generateOrbs(levelDefinition: LevelDefinition, rng: SeededRandom, maze: MazeCell[][]): OrbState[] {

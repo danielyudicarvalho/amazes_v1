@@ -5,6 +5,7 @@ echo "Building web app..."
 npm run build
 
 echo "Syncing to Android..."
+export CAPACITOR_ANDROID_STUDIO_PATH="/opt/android-studio/bin/studio.sh"
 npx cap sync android
 
 echo "Opening in Android Studio..."

@@ -5,43 +5,46 @@
   "metadata": {
     "name": "First Steps",
     "difficulty": "easy",
-    "estimatedTime": 60,
-    "tags": ["tutorial", "beginner", "introduction"],
-    "description": "Learn the basics of maze navigation",
+    "estimatedTime": 90,
+    "tags": [
+      "tutorial",
+      "beginner",
+      "introduction"
+    ],
+    "description": "Welcome to Labyrinth Leap! Navigate through your first maze and collect the orbs.",
     "author": "Game Designer"
   },
   "generation": {
-    "type": "handcrafted",
-    "layout": {
-      "cells": [
-        [{"walls": 12, "type": "floor"}, {"walls": 8, "type": "floor"}, {"walls": 10, "type": "floor"}],
-        [{"walls": 4, "type": "start"}, {"walls": 0, "type": "floor"}, {"walls": 2, "type": "floor"}],
-        [{"walls": 6, "type": "floor"}, {"walls": 1, "type": "floor"}, {"walls": 3, "type": "goal"}]
-      ],
-      "startPosition": {"x": 0, "y": 1},
-      "goalPosition": {"x": 2, "y": 2},
-      "orbPositions": [
-        {"x": 1, "y": 1, "value": 10, "id": "orb-1"}
-      ],
-      "powerupPositions": []
+    "type": "procedural",
+    "seed": 12345,
+    "parameters": {
+      "algorithm": "prim",
+      "complexity": 0.3,
+      "branchingFactor": 0.4,
+      "orbCount": 2,
+      "orbPlacement": "balanced",
+      "deadEndReduction": 0.2
     }
   },
   "config": {
-    "boardSize": {"width": 3, "height": 3},
+    "boardSize": {
+      "width": 8,
+      "height": 8
+    },
     "objectives": [
       {
         "id": "reach-goal",
         "type": "reach_goal",
         "target": 1,
-        "description": "Reach the exit",
+        "description": "Find your way to the glowing exit",
         "required": true,
         "priority": 1
       },
       {
-        "id": "collect-orb",
+        "id": "collect-orbs",
         "type": "collect_orbs",
-        "target": 1,
-        "description": "Collect the energy orb",
+        "target": 2,
+        "description": "Collect both energy orbs for bonus points",
         "required": false,
         "priority": 2
       }
@@ -64,8 +67,8 @@
       {
         "stars": 3,
         "requirements": {
-          "time": 30,
-          "orbsCollected": 1
+          "time": 60,
+          "orbsCollected": 2
         }
       }
     ],
@@ -76,6 +79,8 @@
         "description": "Completion bonus"
       }
     ],
-    "unlocks": ["level-002-simple-path"]
+    "unlocks": [
+      "level-002-simple-path"
+    ]
   }
 }

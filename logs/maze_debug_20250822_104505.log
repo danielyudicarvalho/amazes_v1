@@ -1,0 +1,310 @@
+08-22 10:45:05.978 11686 11754 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=undefined independent=true modes=[CLOSE,TO_BACK] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=null launchCookie=null taskFragmentToken=android.os.BinderProxy@7542c63 windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@bef4060, appThread = android.app.IApplicationThread$Stub$Proxy@4bbd919, debugName = overlayBackTransition }}
+08-22 10:45:05.979 11686 11754 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@2773dde, appThread = android.app.IApplicationThread$Stub$Proxy@9532bbf, debugName = LauncherToDream }}
+08-22 10:45:05.979 11686 11754 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null windowingMode=undefined},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined},{NOT atype=undefined independent=true modes=[] flags=NONE mustBeTask=true order=ANY topActivity=null launchCookie=null customAnim=true windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@478028c, appThread = android.app.IApplicationThread$Stub$Proxy@c27edd5, debugName = QuickstepLaunchHome }}
+08-22 10:45:06.000 11447 11467 V WindowManager: Sent Transition (#24) createdAt=08-22 10:45:05.415 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=28 effectiveUid=10217 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.example.maze/.MainActivity } baseActivity=ComponentInfo{com.example.maze/com.example.maze.MainActivity} topActivity=ComponentInfo{com.example.maze/com.example.maze.MainActivity} origActivity=null realActivity=ComponentInfo{com.example.maze/com.example.maze.MainActivity} numActivities=1 lastActiveTime=260663443 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{395df94 Task{7e1f90f #28 type=standard A=10217:com.example.maze}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=ActivityInfo{1677a3d com.example.maze.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(284, 660 - 796, 1740) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2337) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 24 }
+08-22 10:45:06.883 18725 18725 E webview_service: Not starting debugger since process cannot load the jdwp agent.
+08-22 10:45:06.887 18728 18728 E ocessService0:0: Not starting debugger since process cannot load the jdwp agent.
+08-22 10:45:08.611 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:08 AM] INFO | Debug | Initializing debug system
+08-22 10:45:08.611 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:08 AM] INFO | TouchDebugger | Touch debugging activated
+08-22 10:45:08.623 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:08 AM] INFO | App | Application starting | Data: {"userAgent":"Mozilla/5.0 (Linux; Android 16; sdk_gphone64_x86_64 Build/BE2A.250530.026.D1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/139.0.7258.94 Mobile Safari/537.36","platform":"Linux x86_64","language":"en-US","screenSize":{"width":412,"height":915,"availWidth":412,"availHeight":915},"windowSize":{"width":411,"height":866},"devicePixelRatio":2.625,"timestamp":"2025-08-22T13:45:08.621Z"}
+08-22 10:45:08.623 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:08 AM] INFO | Capacitor | Capacitor detected | Data: {"platform":"android","isNativePlatform":true,"plugins":["CapacitorCookies","WebView","Share","CapacitorHttp"]}
+08-22 10:45:08.623 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:08 AM] INFO | Phaser | Phaser detected | Data: {"version":"3.90.0"}
+08-22 10:45:08.623 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:08 AM] INFO | Debug | Debug system initialized successfully | Data: {"touchDebugging":true,"globalCommands":["showDebug","hideDebug","toggleDebug","clearDebug","exportLogs","enableTouchDebug","disableTouchDebug","logTest"]}
+08-22 10:45:09.324 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:09 AM] INFO | App | Page fully loaded
+08-22 10:45:09.364 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:09 AM] SCENE | LevelSelect | Scene created - initializing level selection | Data: {"sceneKey":"LevelSelect","scaleWidth":360,"scaleHeight":640}
+08-22 10:45:10.275 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:10 AM] SCENE | LevelSelect | Scene fully loaded | Data: {"availableLevels":10,"currentPage":0}
+08-22 10:45:23.224 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] TOUCH | DOM | Pointer down (touch) on canvas @(46.845611572265625,271.9821472167969) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":46.845611572265625,"y":271.9821472167969},"pointerId":2,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:23.226 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] TOUCH | DOM | Touch start 1/1 on canvas @(46.845611572265625,271.9821472167969) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":46.845611572265625,"y":271.9821472167969},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:23.228 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] TOUCH | LevelSelect | Level button hover: level-001-tutorial | Data: {"levelId":"level-001-tutorial"}
+08-22 10:45:23.567 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] TOUCH | DOM | Pointer up (touch) on canvas @(46.845611572265625,271.9821472167969) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":46.845611572265625,"y":271.9821472167969},"pointerId":2,"pointerType":"touch"}
+08-22 10:45:23.567 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] TOUCH | DOM | Touch end 1 on canvas @(46.845611572265625,271.9821472167969) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":46.845611572265625,"y":271.9821472167969},"touchId":0}
+08-22 10:45:23.567 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] CLICK | LevelSelect | Level button clicked: level-001-tutorial | Data: {"levelId":"level-001-tutorial","position":{"x":40,"y":150}}
+08-22 10:45:23.567 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] CLICK | LevelSelect | Level selected: level-001-tutorial | Data: {"levelId":"level-001-tutorial","currentPage":0,"isUnlocked":true}
+08-22 10:45:23.568 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] LEVEL | LevelSelect | Loading level definition for level-001-tutorial
+08-22 10:45:23.568 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] TOUCH | LevelSelect | Level button hover end: level-001-tutorial | Data: {"levelId":"level-001-tutorial"}
+08-22 10:45:23.568 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] LEVEL | LevelSelect | Level loaded successfully: level-001-tutorial | Data: {"levelName":"First Steps","difficulty":"easy","generationType":"handcrafted"}
+08-22 10:45:23.568 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] SCENE | LevelSelect | Starting Game scene | Data: {"levelId":"level-001-tutorial"}
+08-22 10:45:23.569 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] SCENE | Game | Game scene created | Data: {"sceneKey":"Game","scaleWidth":360,"scaleHeight":640}
+08-22 10:45:23.569 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] GAME | Game | Core services initialized
+08-22 10:45:23.569 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] GAME | Game | Using selected level: level-001-tutorial
+08-22 10:45:23.569 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] GAME | Game | Initializing level: level-001-tutorial | Data: {"hasPreloadedDefinition":true}
+08-22 10:45:23.569 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] GAME | Game | Using preloaded level definition
+08-22 10:45:23.570 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:23 AM] GAME | Game | Initializing GameCore with level definition | Data: {"levelId":"level-001-tutorial","levelName":"First Steps","generationType":"handcrafted"}
+08-22 10:45:23.570 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2119 - Msg: [Game Debug] Level initialized: level-001-tutorial [object Object]
+08-22 10:45:23.570 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2119 - Msg: [Game Debug] State changed: Game started [object Object]
+08-22 10:45:30.475 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:30 AM] TOUCH | DOM | Pointer down (touch) on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"pointerId":3,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:30.475 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:30 AM] TOUCH | DOM | Touch start 1/1 on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":148.56027221679688,"y":716.904052734375},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:30.667 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:30 AM] TOUCH | DOM | Pointer up (touch) on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"pointerId":3,"pointerType":"touch"}
+08-22 10:45:30.668 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:30 AM] TOUCH | DOM | Touch end 1 on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"touchId":0}
+08-22 10:45:31.218 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:31 AM] TOUCH | DOM | Pointer down (touch) on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"pointerId":4,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:31.219 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:31 AM] TOUCH | DOM | Touch start 1/1 on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":148.56027221679688,"y":716.904052734375},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:31.382 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:31 AM] TOUCH | DOM | Pointer up (touch) on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"pointerId":4,"pointerType":"touch"}
+08-22 10:45:31.384 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:31 AM] TOUCH | DOM | Touch end 1 on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"touchId":0}
+08-22 10:45:31.729 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:31 AM] TOUCH | DOM | Pointer down (touch) on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"pointerId":5,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:31.730 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:31 AM] TOUCH | DOM | Touch start 1/1 on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":148.56027221679688,"y":716.904052734375},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:31.937 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:31 AM] TOUCH | DOM | Pointer up (touch) on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"pointerId":5,"pointerType":"touch"}
+08-22 10:45:31.938 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:31 AM] TOUCH | DOM | Touch end 1 on canvas @(148.56027221679688,716.904052734375) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":148.56027221679688,"y":716.904052734375},"touchId":0}
+08-22 10:45:32.882 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:32 AM] TOUCH | DOM | Pointer down (touch) on canvas @(203.4166717529297,723.0145263671875) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":203.4166717529297,"y":723.0145263671875},"pointerId":6,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:32.884 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:32 AM] TOUCH | DOM | Touch start 1/1 on canvas @(203.4166717529297,723.0145263671875) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":203.4166717529297,"y":723.0145263671875},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:33.051 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:33 AM] TOUCH | DOM | Pointer up (touch) on canvas @(203.4166717529297,723.0145263671875) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":203.4166717529297,"y":723.0145263671875},"pointerId":6,"pointerType":"touch"}
+08-22 10:45:33.051 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:33 AM] TOUCH | DOM | Touch end 1 on canvas @(203.4166717529297,723.0145263671875) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":203.4166717529297,"y":723.0145263671875},"touchId":0}
+08-22 10:45:35.717 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:35 AM] TOUCH | DOM | Pointer down (touch) on canvas @(203.4166717529297,723.0145263671875) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":203.4166717529297,"y":723.0145263671875},"pointerId":7,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:35.717 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:35 AM] TOUCH | DOM | Touch start 1/1 on canvas @(203.4166717529297,723.0145263671875) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":203.4166717529297,"y":723.0145263671875},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:35.893 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:35 AM] TOUCH | DOM | Pointer up (touch) on canvas @(203.4166717529297,723.0145263671875) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":203.4166717529297,"y":723.0145263671875},"pointerId":7,"pointerType":"touch"}
+08-22 10:45:35.893 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:35 AM] TOUCH | DOM | Touch end 1 on canvas @(203.4166717529297,723.0145263671875) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":203.4166717529297,"y":723.0145263671875},"touchId":0}
+08-22 10:45:37.137 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:37 AM] TOUCH | DOM | Pointer down (touch) on canvas @(204.1826629638672,651.390625) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":204.1826629638672,"y":651.390625},"pointerId":8,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:37.138 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:37 AM] TOUCH | DOM | Touch start 1/1 on canvas @(204.1826629638672,651.390625) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":204.1826629638672,"y":651.390625},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:37.321 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:37 AM] TOUCH | DOM | Pointer up (touch) on canvas @(204.1826629638672,651.390625) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":204.1826629638672,"y":651.390625},"pointerId":8,"pointerType":"touch"}
+08-22 10:45:37.322 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:37 AM] TOUCH | DOM | Touch end 1 on canvas @(204.1826629638672,651.390625) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":204.1826629638672,"y":651.390625},"touchId":0}
+08-22 10:45:37.995 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:37 AM] TOUCH | DOM | Pointer down (touch) on canvas @(137.51116943359375,736.7142944335938) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":137.51116943359375,"y":736.7142944335938},"pointerId":9,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:37.996 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:37 AM] TOUCH | DOM | Touch start 1/1 on canvas @(137.51116943359375,736.7142944335938) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":137.51116943359375,"y":736.7142944335938},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:38.151 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:38 AM] TOUCH | DOM | Pointer up (touch) on canvas @(137.51116943359375,736.7142944335938) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":137.51116943359375,"y":736.7142944335938},"pointerId":9,"pointerType":"touch"}
+08-22 10:45:38.151 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:38 AM] TOUCH | DOM | Touch end 1 on canvas @(137.51116943359375,736.7142944335938) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":137.51116943359375,"y":736.7142944335938},"touchId":0}
+08-22 10:45:38.902 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:38 AM] TOUCH | DOM | Pointer down (touch) on canvas @(136.7451629638672,718.4386596679688) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":136.7451629638672,"y":718.4386596679688},"pointerId":10,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:38.902 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:38 AM] TOUCH | DOM | Touch start 1/1 on canvas @(136.7451629638672,718.4386596679688) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":136.7451629638672,"y":718.4386596679688},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:39.065 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:39 AM] TOUCH | DOM | Pointer up (touch) on canvas @(136.7451629638672,718.4386596679688) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":136.7451629638672,"y":718.4386596679688},"pointerId":10,"pointerType":"touch"}
+08-22 10:45:39.066 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:39 AM] TOUCH | DOM | Touch end 1 on canvas @(136.7451629638672,718.4386596679688) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":136.7451629638672,"y":718.4386596679688},"touchId":0}
+08-22 10:45:39.874 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:39 AM] TOUCH | DOM | Pointer down (touch) on canvas @(136.7451629638672,718.4386596679688) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":136.7451629638672,"y":718.4386596679688},"pointerId":11,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:39.875 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:39 AM] TOUCH | DOM | Touch start 1/1 on canvas @(136.7451629638672,718.4386596679688) | Data: {"tagName":"CANVAS","className":"","id":"","textContent":"","position":{"x":136.7451629638672,"y":718.4386596679688},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:40.064 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:40 AM] TOUCH | DOM | Pointer up (touch) on canvas @(136.7451629638672,718.4386596679688) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":136.7451629638672,"y":718.4386596679688},"pointerId":11,"pointerType":"touch"}
+08-22 10:45:40.064 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:40 AM] TOUCH | DOM | Touch end 1 on canvas @(136.7451629638672,718.4386596679688) | Data: {"tagName":"CANVAS","className":"","id":"","position":{"x":136.7451629638672,"y":718.4386596679688},"touchId":0}
+08-22 10:45:54.446 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:54 AM] TOUCH | DOM | Pointer down (touch) on button "🐛" @(22.8515625,34.649559020996094) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22.8515625,"y":34.649559020996094},"pointerId":12,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:54.447 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:54 AM] TOUCH | DOM | Touch start 1/1 on button "🐛" @(22.8515625,34.649559020996094) | Data: {"tagName":"BUTTON","className":"","id":"","textContent":"🐛","position":{"x":22.8515625,"y":34.649559020996094},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:54.996 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:54 AM] TOUCH | DOM | Pointer up (touch) on button "🐛" @(22.8515625,34.649559020996094) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22.8515625,"y":34.649559020996094},"pointerId":12,"pointerType":"touch"}
+08-22 10:45:54.997 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:54 AM] TOUCH | DOM | Touch end 1 on button "🐛" @(22.8515625,34.649559020996094) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22.8515625,"y":34.649559020996094},"touchId":0}
+08-22 10:45:55.015 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:55 AM] TOUCH | DOM | Mouse down on button "🐛" @(22,34) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22,"y":34},"button":0}
+08-22 10:45:55.018 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:55 AM] TOUCH | DOM | Mouse up on button "🐛" @(22,34) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22,"y":34},"button":0}
+08-22 10:45:55.019 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:55 AM] CLICK | DOM | Click on button "🐛" @(22,34) | Data: {"tagName":"BUTTON","className":"","id":"","textContent":"🐛","position":{"x":22,"y":34},"button":0,"ctrlKey":false,"shiftKey":false,"altKey":false}
+08-22 10:45:56.748 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:56 AM] TOUCH | DOM | Pointer down (touch) on button "🐛" @(22.8515625,34.649559020996094) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22.8515625,"y":34.649559020996094},"pointerId":13,"pointerType":"touch","pressure":1,"width":25.892858505249023,"height":25.892858505249023}
+08-22 10:45:56.749 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:56 AM] TOUCH | DOM | Touch start 1/1 on button "🐛" @(22.8515625,34.649559020996094) | Data: {"tagName":"BUTTON","className":"","id":"","textContent":"🐛","position":{"x":22.8515625,"y":34.649559020996094},"touchId":0,"force":1,"radiusX":12.946429252624512,"radiusY":12.946429252624512}
+08-22 10:45:56.890 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:56 AM] TOUCH | DOM | Pointer up (touch) on button "🐛" @(22.8515625,34.649559020996094) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22.8515625,"y":34.649559020996094},"pointerId":13,"pointerType":"touch"}
+08-22 10:45:56.891 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:56 AM] TOUCH | DOM | Touch end 1 on button "🐛" @(22.8515625,34.649559020996094) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22.8515625,"y":34.649559020996094},"touchId":0}
+08-22 10:45:56.932 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:56 AM] TOUCH | DOM | Mouse down on button "🐛" @(22,34) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22,"y":34},"button":0}
+08-22 10:45:56.933 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:56 AM] TOUCH | DOM | Mouse up on button "🐛" @(22,34) | Data: {"tagName":"BUTTON","className":"","id":"","position":{"x":22,"y":34},"button":0}
+08-22 10:45:56.937 18679 18679 I Capacitor/Console: File: https://localhost/assets/index-B5CmwJ5q.js - Line 2068 - Msg: 🐛 [10:45:56 AM] CLICK | DOM | Click on button "🐛" @(22,34) | Data: {"tagName":"BUTTON","className":"","id":"","textContent":"🐛","position":{"x":22,"y":34},"button":0,"ctrlKey":false,"shiftKey":false,"altKey":false}
+08-22 11:02:30.760 11447 11532 W JobServiceContext: Sending onNetworkChanged for a job that isn't started. JobStatus{f1ee831 #u0a214/25 com.google.android.adservices.api/com.android.adservices.service.measurement.reporting.DebugReportingFallbackJobService u=0 s=10214 TIME=-4m9s198ms:+55m50s802ms NET PERIODIC PERSISTED READY}
+08-22 11:02:30.770 11447 11532 W JobServiceContext: Sending onNetworkChanged for a job that isn't started. JobStatus{cd69c9 #u0a214/24 com.google.android.adservices.api/com.android.adservices.service.measurement.reporting.VerboseDebugReportingFallbackJobService u=0 s=10214 TIME=-4m9s208ms:+55m50s792ms NET PERIODIC PERSISTED READY}
+08-22 12:22:41.771 11447 11532 W JobServiceContext: Sending onNetworkChanged for a job that isn't started. JobStatus{dd7eb95 #u0a214/24 com.google.android.adservices.api/com.android.adservices.service.measurement.reporting.VerboseDebugReportingFallbackJobService u=0 s=10214 TIME=-24m20s208ms:+35m39s792ms NET PERIODIC PERSISTED READY}
+08-22 12:22:55.767 14663 20236 I FA      : To enable debug logging run: adb shell setprop log.tag.FA VERBOSE
+08-22 12:22:55.767 14663 20236 I FA      : To enable faster debug mode event logging run:
+08-22 12:22:55.767 14663 20236 I FA      :   adb shell setprop debug.firebase.analytics.app com.google.android.apps.photos
+08-25 09:43:37.291 11447 12687 W ActivityManager: Scheduling restart of crashed service com.google.android.gms/.clearcut.debug.ClearcutDebugDumpService in 310927ms for start-requested
+08-25 09:43:37.652 21183 21183 E .gms.persistent: Not starting debugger since process cannot load the jdwp agent.
+08-25 09:43:37.993 21206 21206 E d.process.media: Not starting debugger since process cannot load the jdwp agent.
+08-25 09:43:39.709 21290 21290 E ocessService0:0: Not starting debugger since process cannot load the jdwp agent.
+08-25 09:43:40.373 21341 21341 E .apps.wallpaper: Not starting debugger since process cannot load the jdwp agent.
+08-25 09:43:44.072 11447 11532 W JobServiceContext: Sending onNetworkChanged for a job that isn't started. JobStatus{ccc3693 #u0a214/25 com.google.android.adservices.api/com.android.adservices.service.measurement.reporting.DebugReportingFallbackJobService u=0 s=10214 TIME=-45m22s509ms:+14m37s491ms NET PERIODIC PERSISTED READY}
+08-25 09:43:44.109 15122 15122 W JobService: onNetworkChanged() not implemented in com.android.adservices.service.measurement.reporting.DebugReportingFallbackJobService. Must override in a subclass.
+08-25 09:43:45.303 21561 21561 E iew:webview_apk: Not starting debugger since process cannot load the jdwp agent.
+08-25 09:43:47.799 12406 21662 I GmsDebugLogger: [89] vision.dynamite.ocr
+08-25 09:44:06.648 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11447 status: -2: No such file or directory
+08-25 09:44:06.680 11447 11473 I system_server: libdebuggerd_client: started dumping process 11447
+08-25 09:44:06.693   305   305 I tombstoned: registered intercept for pid 11447 and type kDebuggerdJavaBacktrace
+08-25 09:44:06.993 21692 21692 E d.configupdater: Not starting debugger since process cannot load the jdwp agent.
+08-25 09:44:07.613 21714 21714 E id.partnersetup: Not starting debugger since process cannot load the jdwp agent.
+08-25 09:44:08.155   305   305 I tombstoned: found intercept fd 512 for pid 11447 and type kDebuggerdJavaBacktrace
+08-25 09:44:08.157 11447 11473 I system_server: libdebuggerd_client: done dumping process 11447
+08-25 09:44:08.160 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11820 status: -2: No such file or directory
+08-25 09:44:08.163 11447 11473 I system_server: libdebuggerd_client: started dumping process 11820
+08-25 09:44:08.165   305   305 I tombstoned: registered intercept for pid 11820 and type kDebuggerdJavaBacktrace
+08-25 09:44:08.246   305   305 I tombstoned: found intercept fd 512 for pid 11820 and type kDebuggerdJavaBacktrace
+08-25 09:44:08.248 11447 11473 I system_server: libdebuggerd_client: done dumping process 11820
+08-25 09:44:08.252 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 12255 status: -2: No such file or directory
+08-25 09:44:08.255 11447 11473 I system_server: libdebuggerd_client: started dumping process 12255
+08-25 09:44:08.256   305   305 I tombstoned: registered intercept for pid 12255 and type kDebuggerdJavaBacktrace
+08-25 09:44:08.436   305   305 I tombstoned: found intercept fd 512 for pid 12255 and type kDebuggerdJavaBacktrace
+08-25 09:44:08.437 11447 11473 I system_server: libdebuggerd_client: done dumping process 12255
+08-25 09:44:08.439 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11393 status: -2: No such file or directory
+08-25 09:44:08.439 11447 11473 I system_server: libdebuggerd_client: started dumping process 11393
+08-25 09:44:08.440   305   305 I tombstoned: registered intercept for pid 11393 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.488 21744 21744 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.490   305   305 I tombstoned: found intercept fd 512 for pid 11393 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.503 11447 11473 I system_server: libdebuggerd_client: done dumping process 11393
+08-25 09:44:08.505 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 516 status: -2: No such file or directory
+08-25 09:44:08.505 11447 11473 I system_server: libdebuggerd_client: started dumping process 516
+08-25 09:44:08.505   305   305 I tombstoned: registered intercept for pid 516 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.526 21749 21749 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.527   305   305 I tombstoned: found intercept fd 512 for pid 516 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.537 11447 11473 I system_server: libdebuggerd_client: done dumping process 516
+08-25 09:44:08.539 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 262 status: -2: No such file or directory
+08-25 09:44:08.539 11447 11473 I system_server: libdebuggerd_client: started dumping process 262
+08-25 09:44:08.540   305   305 I tombstoned: registered intercept for pid 262 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.560   305   305 I tombstoned: found registered intercept of type kDebuggerdNativeBacktrace for requested type kDebuggerdAnyIntercept
+08-25 09:44:08.560   305   305 I tombstoned: found intercept fd 512 for pid 262 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.562 11447 11473 I system_server: libdebuggerd_client: done dumping process 262
+08-25 09:44:08.563 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 521 status: -2: No such file or directory
+08-25 09:44:08.563 11447 11473 I system_server: libdebuggerd_client: started dumping process 521
+08-25 09:44:08.566   305   305 I tombstoned: registered intercept for pid 521 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.580 21758 21758 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.581   305   305 I tombstoned: found intercept fd 512 for pid 521 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.589 11447 11473 I system_server: libdebuggerd_client: done dumping process 521
+08-25 09:44:08.594 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 524 status: -2: No such file or directory
+08-25 09:44:08.594 11447 11473 I system_server: libdebuggerd_client: started dumping process 524
+08-25 09:44:08.595   305   305 I tombstoned: registered intercept for pid 524 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.611 21763 21763 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.611   305   305 I tombstoned: found intercept fd 512 for pid 524 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.620 11447 11473 I system_server: libdebuggerd_client: done dumping process 524
+08-25 09:44:08.621 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11726 status: -2: No such file or directory
+08-25 09:44:08.622 11447 11473 I system_server: libdebuggerd_client: started dumping process 11726
+08-25 09:44:08.622   305   305 I tombstoned: registered intercept for pid 11726 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.635 21768 21768 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.636   305   305 I tombstoned: found intercept fd 512 for pid 11726 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.640 11447 11473 I system_server: libdebuggerd_client: done dumping process 11726
+08-25 09:44:08.644 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 271 status: -2: No such file or directory
+08-25 09:44:08.645 11447 11473 I system_server: libdebuggerd_client: started dumping process 271
+08-25 09:44:08.645   305   305 I tombstoned: registered intercept for pid 271 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.668 21773 21773 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.668   305   305 I tombstoned: found intercept fd 512 for pid 271 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.678 11447 11473 I system_server: libdebuggerd_client: done dumping process 271
+08-25 09:44:08.682 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 272 status: -2: No such file or directory
+08-25 09:44:08.683 11447 11473 I system_server: libdebuggerd_client: started dumping process 272
+08-25 09:44:08.684   305   305 I tombstoned: registered intercept for pid 272 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.698   305   305 I tombstoned: found registered intercept of type kDebuggerdNativeBacktrace for requested type kDebuggerdAnyIntercept
+08-25 09:44:08.698   305   305 I tombstoned: found intercept fd 512 for pid 272 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.699 11447 11473 I system_server: libdebuggerd_client: done dumping process 272
+08-25 09:44:08.709 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 534 status: -2: No such file or directory
+08-25 09:44:08.710 11447 11473 I system_server: libdebuggerd_client: started dumping process 534
+08-25 09:44:08.710   305   305 I tombstoned: registered intercept for pid 534 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.728 21781 21781 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.729   305   305 I tombstoned: found intercept fd 512 for pid 534 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.738 11447 11473 I system_server: libdebuggerd_client: done dumping process 534
+08-25 09:44:08.740 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 536 status: -2: No such file or directory
+08-25 09:44:08.740 11447 11473 I system_server: libdebuggerd_client: started dumping process 536
+08-25 09:44:08.741   305   305 I tombstoned: registered intercept for pid 536 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.757 21787 21787 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.758   305   305 I tombstoned: found intercept fd 512 for pid 536 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.762 11447 11473 I system_server: libdebuggerd_client: done dumping process 536
+08-25 09:44:08.764 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11673 status: -2: No such file or directory
+08-25 09:44:08.764 11447 11473 I system_server: libdebuggerd_client: started dumping process 11673
+08-25 09:44:08.765   305   305 I tombstoned: registered intercept for pid 11673 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.790 21792 21792 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.790   305   305 I tombstoned: found intercept fd 512 for pid 11673 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.804 11447 11473 I system_server: libdebuggerd_client: done dumping process 11673
+08-25 09:44:08.805 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 540 status: -2: No such file or directory
+08-25 09:44:08.805 11447 11473 I system_server: libdebuggerd_client: started dumping process 540
+08-25 09:44:08.806   305   305 I tombstoned: registered intercept for pid 540 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.818 21798 21798 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.818   305   305 I tombstoned: found intercept fd 512 for pid 540 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.824 11447 11473 I system_server: libdebuggerd_client: done dumping process 540
+08-25 09:44:08.826 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 480 status: -2: No such file or directory
+08-25 09:44:08.827 11447 11473 I system_server: libdebuggerd_client: started dumping process 480
+08-25 09:44:08.827   305   305 I tombstoned: registered intercept for pid 480 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.844 21803 21803 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.844   305   305 I tombstoned: found intercept fd 512 for pid 480 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.870 11447 11473 I system_server: libdebuggerd_client: done dumping process 480
+08-25 09:44:08.873 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 546 status: -2: No such file or directory
+08-25 09:44:08.873 11447 11473 I system_server: libdebuggerd_client: started dumping process 546
+08-25 09:44:08.874   305   305 I tombstoned: registered intercept for pid 546 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.887 21808 21808 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.887   305   305 I tombstoned: found intercept fd 512 for pid 546 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.899 11447 11473 I system_server: libdebuggerd_client: done dumping process 546
+08-25 09:44:08.908 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 490 status: -2: No such file or directory
+08-25 09:44:08.908 11447 11473 I system_server: libdebuggerd_client: started dumping process 490
+08-25 09:44:08.909   305   305 I tombstoned: registered intercept for pid 490 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.939 21813 21813 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.940   305   305 I tombstoned: found intercept fd 512 for pid 490 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.946 11447 11473 I system_server: libdebuggerd_client: done dumping process 490
+08-25 09:44:08.949 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 618 status: -2: No such file or directory
+08-25 09:44:08.950 11447 11473 I system_server: libdebuggerd_client: started dumping process 618
+08-25 09:44:08.951   305   305 I tombstoned: registered intercept for pid 618 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.964 21823 21823 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.965   305   305 I tombstoned: found intercept fd 512 for pid 618 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.971 11447 11473 I system_server: libdebuggerd_client: done dumping process 618
+08-25 09:44:08.973 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 491 status: -2: No such file or directory
+08-25 09:44:08.973 11447 11473 I system_server: libdebuggerd_client: started dumping process 491
+08-25 09:44:08.973   305   305 I tombstoned: registered intercept for pid 491 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.991 21828 21828 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:08.991   305   305 I tombstoned: found intercept fd 512 for pid 491 and type kDebuggerdNativeBacktrace
+08-25 09:44:08.996 11447 11473 I system_server: libdebuggerd_client: done dumping process 491
+08-25 09:44:08.998 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 555 status: -2: No such file or directory
+08-25 09:44:08.999 11447 11473 I system_server: libdebuggerd_client: started dumping process 555
+08-25 09:44:08.999   305   305 I tombstoned: registered intercept for pid 555 and type kDebuggerdNativeBacktrace
+08-25 09:44:20.962   305   305 I tombstoned: intercept for pid 555 and type kDebuggerdNativeBacktrace terminated: due to timeout
+08-25 09:44:20.979 11447 11473 E system_server: libdebuggerd_client: failed to read status response from tombstoned: timeout reached?
+08-25 09:44:21.015 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 494 status: -2: No such file or directory
+08-25 09:44:21.015 11447 11473 I system_server: libdebuggerd_client: started dumping process 494
+08-25 09:44:21.020   305   305 I tombstoned: registered intercept for pid 494 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.504 21848 21848 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:22.504   305   305 I tombstoned: found intercept fd 512 for pid 494 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.509 11447 11473 I system_server: libdebuggerd_client: done dumping process 494
+08-25 09:44:22.514 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 495 status: -2: No such file or directory
+08-25 09:44:22.514 11447 11473 I system_server: libdebuggerd_client: started dumping process 495
+08-25 09:44:22.514   305   305 I tombstoned: registered intercept for pid 495 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.524 21868 21868 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:22.524   305   305 I tombstoned: found intercept fd 512 for pid 495 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.528 11447 11473 I system_server: libdebuggerd_client: done dumping process 495
+08-25 09:44:22.532 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 496 status: -2: No such file or directory
+08-25 09:44:22.532 11447 11473 I system_server: libdebuggerd_client: started dumping process 496
+08-25 09:44:22.532   305   305 I tombstoned: registered intercept for pid 496 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.534   305   305 I tombstoned: found intercept fd 512 for pid 496 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.563 11447 11473 I system_server: libdebuggerd_client: done dumping process 496
+08-25 09:44:22.565 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11634 status: -2: No such file or directory
+08-25 09:44:22.566 11447 11473 I system_server: libdebuggerd_client: started dumping process 11634
+08-25 09:44:22.566   305   305 I tombstoned: registered intercept for pid 11634 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.581 21873 21873 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:22.581   305   305 I tombstoned: found intercept fd 512 for pid 11634 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.585 11447 11473 I system_server: libdebuggerd_client: done dumping process 11634
+08-25 09:44:22.587 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 498 status: -2: No such file or directory
+08-25 09:44:22.588 11447 11473 I system_server: libdebuggerd_client: started dumping process 498
+08-25 09:44:22.588   305   305 I tombstoned: registered intercept for pid 498 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.599 21878 21878 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:22.599   305   305 I tombstoned: found intercept fd 512 for pid 498 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.604 11447 11473 I system_server: libdebuggerd_client: done dumping process 498
+08-25 09:44:22.605 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 500 status: -2: No such file or directory
+08-25 09:44:22.605 11447 11473 I system_server: libdebuggerd_client: started dumping process 500
+08-25 09:44:22.605   305   305 I tombstoned: registered intercept for pid 500 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.616 21883 21883 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:22.616   305   305 I tombstoned: found intercept fd 512 for pid 500 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.621 11447 11473 I system_server: libdebuggerd_client: done dumping process 500
+08-25 09:44:22.623 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 501 status: -2: No such file or directory
+08-25 09:44:22.624 11447 11473 I system_server: libdebuggerd_client: started dumping process 501
+08-25 09:44:22.624   305   305 I tombstoned: registered intercept for pid 501 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.634 21888 21888 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:22.634   305   305 I tombstoned: found intercept fd 512 for pid 501 and type kDebuggerdNativeBacktrace
+08-25 09:44:22.638 11447 11473 I system_server: libdebuggerd_client: done dumping process 501
+08-25 09:44:22.639 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 502 status: -2: No such file or directory
+08-25 09:44:22.640 11447 11473 I system_server: libdebuggerd_client: started dumping process 502
+08-25 09:44:22.640   305   305 I tombstoned: registered intercept for pid 502 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.659 11447 11473 E system_server: libdebuggerd_client: failed to read status response from tombstoned: Try again
+08-25 09:44:24.659   305   305 I tombstoned: intercept for pid 502 and type kDebuggerdNativeBacktrace terminated: due to input
+08-25 09:44:24.660 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 630 status: -2: No such file or directory
+08-25 09:44:24.661 11447 11473 I system_server: libdebuggerd_client: started dumping process 630
+08-25 09:44:24.661   305   305 I tombstoned: registered intercept for pid 630 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.662   305   305 I tombstoned: found intercept fd 512 for pid 630 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.689 11447 11473 I system_server: libdebuggerd_client: done dumping process 630
+08-25 09:44:24.690 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 631 status: -2: No such file or directory
+08-25 09:44:24.692 11447 11473 I system_server: libdebuggerd_client: started dumping process 631
+08-25 09:44:24.692   305   305 I tombstoned: registered intercept for pid 631 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.705 21897 21897 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:24.706   305   305 I tombstoned: found intercept fd 512 for pid 631 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.714 11447 11473 I system_server: libdebuggerd_client: done dumping process 631
+08-25 09:44:24.716 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 248 status: -2: No such file or directory
+08-25 09:44:24.716 11447 11473 I system_server: libdebuggerd_client: started dumping process 248
+08-25 09:44:24.716   305   305 I tombstoned: registered intercept for pid 248 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.729 21902 21902 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:24.729   305   305 I tombstoned: found intercept fd 512 for pid 248 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.733 11447 11473 I system_server: libdebuggerd_client: done dumping process 248
+08-25 09:44:24.734 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11388 status: -2: No such file or directory
+08-25 09:44:24.735 11447 11473 I system_server: libdebuggerd_client: started dumping process 11388
+08-25 09:44:24.735   305   305 I tombstoned: registered intercept for pid 11388 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.752 21908 21908 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:24.752   305   305 I tombstoned: found intercept fd 512 for pid 11388 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.767 11447 11473 I system_server: libdebuggerd_client: done dumping process 11388
+08-25 09:44:24.768 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11389 status: -2: No such file or directory
+08-25 09:44:24.769 11447 11473 I system_server: libdebuggerd_client: started dumping process 11389
+08-25 09:44:24.769   305   305 I tombstoned: registered intercept for pid 11389 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.782 21913 21913 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:24.782   305   305 I tombstoned: found intercept fd 512 for pid 11389 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.790 11447 11473 I system_server: libdebuggerd_client: done dumping process 11389
+08-25 09:44:24.792 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 11390 status: -2: No such file or directory
+08-25 09:44:24.793 11447 11473 I system_server: libdebuggerd_client: started dumping process 11390
+08-25 09:44:24.793   305   305 I tombstoned: registered intercept for pid 11390 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.813 21918 21918 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:24.814   305   305 I tombstoned: found intercept fd 512 for pid 11390 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.820 11447 11473 I system_server: libdebuggerd_client: done dumping process 11390
+08-25 09:44:24.823 11447 11473 E android.os.Debug: Failed to get binder state info for pid: 511 status: -2: No such file or directory
+08-25 09:44:24.824 11447 11473 I system_server: libdebuggerd_client: started dumping process 511
+08-25 09:44:24.824   305   305 I tombstoned: registered intercept for pid 511 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.839 21923 21923 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdNativeBacktrace
+08-25 09:44:24.839   305   305 I tombstoned: found intercept fd 512 for pid 511 and type kDebuggerdNativeBacktrace
+08-25 09:44:24.847 11447 11473 I system_server: libdebuggerd_client: done dumping process 

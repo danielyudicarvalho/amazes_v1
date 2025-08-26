@@ -11,20 +11,18 @@
   },
   "generation": {
     "type": "procedural",
-    "seed": 23456,
+    "seed": 34567,
     "parameters": {
-      "algorithm": "kruskal",
-      "complexity": 0.4,
-      "branchingFactor": 0.5,
-      "deadEndRatio": 0.2,
+      "algorithm": "prim",
+      "complexity": 0.5,
+      "branchingFactor": 0.6,
       "orbCount": 3,
-      "orbPlacement": "strategic",
-      "minPathLength": 10,
-      "maxPathLength": 20
+      "orbPlacement": "balanced",
+      "deadEndReduction": 0.1
     }
   },
   "config": {
-    "boardSize": {"width": 7, "height": 7},
+    "boardSize": {"width": 9, "height": 9},
     "objectives": [
       {
         "id": "reach-goal",

@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import { ProgressManager } from '../managers/ProgressManager'
 import { LevelService } from '../services/LevelService'
 import { LevelDefinition } from '../core/types/Level'
+import { debugLogger } from '../utils/DebugLogger'
 
 export class LevelSelectScene extends Phaser.Scene {
   private progressManager!: ProgressManager
@@ -18,6 +19,12 @@ export class LevelSelectScene extends Phaser.Scene {
   }
 
   async create() {
+    debugLogger.scene('LevelSelect', 'Scene created - initializing level selection', {
+      sceneKey: this.scene.key,
+      scaleWidth: this.scale.width,
+      scaleHeight: this.scale.height
+    });
+
     this.progressManager = ProgressManager.getInstance()
     this.levelService = new LevelService()
 
@@ -35,7 +42,13 @@ export class LevelSelectScene extends Phaser.Scene {
       this.hideLoading()
       this.createUI()
       this.createLevelGrid()
+      
+      debugLogger.scene('LevelSelect', 'Scene fully loaded', {
+        availableLevels: this.availableLevels.length,
+        currentPage: this.currentPage
+      });
     } catch (error) {
+      debugLogger.error('LevelSelect', 'Failed to create scene', error);
       this.hideLoading()
       this.showError(`Failed to load levels: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
@@ -232,9 +245,23 @@ export class LevelSelectScene extends Phaser.Scene {
     // Make interactive if unlocked
     if (isUnlocked) {
       button.setInteractive({ useHandCursor: true })
-        .on('pointerup', () => this.selectLevel(levelId))
-        .on('pointerover', () => this.showLevelTooltip(levelId, x, y))
-        .on('pointerout', () => this.hideLevelTooltip())
+        .on('pointerup', () => {
+          debugLogger.click('LevelSelect', `Level button clicked: ${levelId}`, {
+            levelId,
+            position: { x, y },
+            isCompleted: stats?.completed,
+            stars: stats?.stars
+          });
+          this.selectLevel(levelId);
+        })
+        .on('pointerover', () => {
+          debugLogger.touch('LevelSelect', `Level button hover: ${levelId}`, { levelId });
+          this.showLevelTooltip(levelId, x, y);
+        })
+        .on('pointerout', () => {
+          debugLogger.touch('LevelSelect', `Level button hover end: ${levelId}`, { levelId });
+          this.hideLevelTooltip();
+        })
     }
   }
 
@@ -289,15 +316,33 @@ export class LevelSelectScene extends Phaser.Scene {
   }
 
   private async selectLevel(levelId: string) {
+    debugLogger.click('LevelSelect', `Level selected: ${levelId}`, {
+      levelId,
+      currentPage: this.currentPage,
+      isUnlocked: this.progressManager.isLevelUnlocked(levelId),
+      levelStats: this.progressManager.getLevelStats(levelId)
+    });
+
     try {
+      debugLogger.level('LevelSelect', `Loading level definition for ${levelId}`);
+      
       // Load the full level definition
       const levelDefinition = await this.levelService.loadLevel(levelId)
+
+      debugLogger.level('LevelSelect', `Level loaded successfully: ${levelId}`, {
+        levelName: levelDefinition.metadata.name,
+        difficulty: levelDefinition.metadata.difficulty,
+        generationType: levelDefinition.generation.type
+      });
 
       // Store selected level data and start game
       this.registry.set('selectedLevelId', levelId)
       this.registry.set('selectedLevelDefinition', levelDefinition)
+      
+      debugLogger.scene('LevelSelect', 'Starting Game scene', { levelId });
       this.scene.start('Game')
     } catch (error) {
+      debugLogger.error('LevelSelect', `Failed to load level: ${levelId}`, error);
       console.error('Failed to load level:', error)
       this.showError(`Failed to load level: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
