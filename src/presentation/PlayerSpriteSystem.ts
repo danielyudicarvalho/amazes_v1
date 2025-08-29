@@ -266,6 +266,17 @@ export class PlayerSpriteSystem {
   }
 
   private createFallbackPlayerSprite(position: Position): Phaser.GameObjects.Sprite {
+    // Try to use elf character first
+    if (this.animationController && this.animationController.getAnimationRegistry().isUsingElfCharacter()) {
+      const elfLoader = this.animationController.getAnimationRegistry().getElfCharacterLoader();
+      if (elfLoader) {
+        const elfSprite = elfLoader.createElfSprite(this.gridToWorldPosition(position), 'down');
+        if (elfSprite) {
+          return elfSprite;
+        }
+      }
+    }
+
     // Create a basic circle sprite as fallback
     const graphics = this.scene.add.graphics();
     graphics.fillStyle(0x4169E1); // Blue color

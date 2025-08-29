@@ -7,10 +7,10 @@
       "description": "A nature-themed maze adventure with forest elements",
       "assets": {
         "player": {
-          "key": "player_character",
-          "atlas": "characters",
-          "frame": "player_idle_01",
-          "animations": ["player_walk", "player_idle"],
+          "key": "elf_character",
+          "atlas": "elf_character",
+          "frame": "elf_idle_south",
+          "animations": ["elf_walk_south", "elf_walk_north", "elf_walk_east", "elf_walk_west", "elf_idle_south", "elf_idle_north", "elf_idle_east", "elf_idle_west"],
           "scale": 1.0,
           "anchor": { "x": 0.5, "y": 0.5 }
         },
@@ -35,9 +35,56 @@
         "maze": {
           "walls": [
             {
-              "key": "wall_stone",
-              "atlas": "environment",
-              "frame": "wall_stone_01",
+              "key": "wall1",
+              "imagePath": "assets/tileset/wall1.png",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            },
+            {
+              "key": "wall2",
+              "imagePath": "assets/tileset/wall2.png",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            },
+            {
+              "key": "wall3",
+              "imagePath": "assets/tileset/wall3.png",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            },
+            {
+              "key": "wall4",
+              "imagePath": "assets/tileset/wall4.png",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            },
+            {
+              "key": "wall5",
+              "imagePath": "assets/tileset/wall5.png",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            },
+            {
+              "key": "wall6",
+              "imagePath": "assets/tileset/wall6.png",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            },
+            {
+              "key": "wall7",
+              "imagePath": "assets/tileset/wall7.png",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            },
+            {
+              "key": "wall8",
+              "imagePath": "assets/tileset/wall8.png",
+              "scale": 1.0,
+              "anchor": { "x": 0.5, "y": 0.5 }
+            },
+            {
+              "key": "wall9",
+              "imagePath": "assets/tileset/wall9.png",
               "scale": 1.0,
               "anchor": { "x": 0.5, "y": 0.5 }
             }
@@ -110,10 +157,16 @@
   ],
   "atlases": [
     {
+      "key": "elf_character",
+      "imagePath": "/src/assets/character/a_cute_elf/",
+      "dataPath": "/src/assets/character/a_cute_elf/elf-character-config.json",
+      "priority": 1
+    },
+    {
       "key": "characters",
       "imagePath": "/assets/atlases/characters.png",
       "dataPath": "/assets/atlases/characters.json",
-      "priority": 1
+      "priority": 2
     },
     {
       "key": "items",
@@ -147,6 +200,106 @@
     }
   ],
   "animations": [
+    {
+      "key": "elf_walk_south",
+      "atlas": "elf_character",
+      "frames": [
+        { "frame": "elf_walk_south_000", "duration": 125 },
+        { "frame": "elf_walk_south_001", "duration": 125 },
+        { "frame": "elf_walk_south_002", "duration": 125 },
+        { "frame": "elf_walk_south_003", "duration": 125 },
+        { "frame": "elf_walk_south_004", "duration": 125 },
+        { "frame": "elf_walk_south_005", "duration": 125 }
+      ],
+      "frameRate": 8,
+      "repeat": -1,
+      "yoyo": false
+    },
+    {
+      "key": "elf_walk_north",
+      "atlas": "elf_character",
+      "frames": [
+        { "frame": "elf_walk_north_000", "duration": 125 },
+        { "frame": "elf_walk_north_001", "duration": 125 },
+        { "frame": "elf_walk_north_002", "duration": 125 },
+        { "frame": "elf_walk_north_003", "duration": 125 },
+        { "frame": "elf_walk_north_004", "duration": 125 },
+        { "frame": "elf_walk_north_005", "duration": 125 }
+      ],
+      "frameRate": 8,
+      "repeat": -1,
+      "yoyo": false
+    },
+    {
+      "key": "elf_walk_east",
+      "atlas": "elf_character",
+      "frames": [
+        { "frame": "elf_walk_east_000", "duration": 125 },
+        { "frame": "elf_walk_east_001", "duration": 125 },
+        { "frame": "elf_walk_east_002", "duration": 125 },
+        { "frame": "elf_walk_east_003", "duration": 125 },
+        { "frame": "elf_walk_east_004", "duration": 125 },
+        { "frame": "elf_walk_east_005", "duration": 125 }
+      ],
+      "frameRate": 8,
+      "repeat": -1,
+      "yoyo": false
+    },
+    {
+      "key": "elf_walk_west",
+      "atlas": "elf_character",
+      "frames": [
+        { "frame": "elf_walk_west_000", "duration": 125 },
+        { "frame": "elf_walk_west_001", "duration": 125 },
+        { "frame": "elf_walk_west_002", "duration": 125 },
+        { "frame": "elf_walk_west_003", "duration": 125 },
+        { "frame": "elf_walk_west_004", "duration": 125 },
+        { "frame": "elf_walk_west_005", "duration": 125 }
+      ],
+      "frameRate": 8,
+      "repeat": -1,
+      "yoyo": false
+    },
+    {
+      "key": "elf_idle_south",
+      "atlas": "elf_character",
+      "frames": [
+        { "frame": "elf_idle_south", "duration": 1000 }
+      ],
+      "frameRate": 1,
+      "repeat": -1,
+      "yoyo": false
+    },
+    {
+      "key": "elf_idle_north",
+      "atlas": "elf_character",
+      "frames": [
+        { "frame": "elf_idle_north", "duration": 1000 }
+      ],
+      "frameRate": 1,
+      "repeat": -1,
+      "yoyo": false
+    },
+    {
+      "key": "elf_idle_east",
+      "atlas": "elf_character",
+      "frames": [
+        { "frame": "elf_idle_east", "duration": 1000 }
+      ],
+      "frameRate": 1,
+      "repeat": -1,
+      "yoyo": false
+    },
+    {
+      "key": "elf_idle_west",
+      "atlas": "elf_character",
+      "frames": [
+        { "frame": "elf_idle_west", "duration": 1000 }
+      ],
+      "frameRate": 1,
+      "repeat": -1,
+      "yoyo": false
+    },
     {
       "key": "player_walk",
       "atlas": "characters",

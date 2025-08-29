@@ -73,7 +73,10 @@ export class PlayerAnimationController {
   /**
    * Initializes the animation controller and sets up default animations
    */
-  private initialize(): void {
+  private async initialize(): Promise<void> {
+    // Wait for animations to be ready (elf character loading is async)
+    await this.waitForAnimationsReady();
+    
     // Create all animations through the registry
     this.animationRegistry.createAllAnimations();
 
@@ -85,6 +88,33 @@ export class PlayerAnimationController {
 
     this.isInitialized = true;
     console.log('PlayerAnimationController initialized');
+  }
+
+  /**
+   * Waits for animations to be ready (handles async elf character loading)
+   */
+  private waitForAnimationsReady(): Promise<void> {
+    return new Promise((resolve) => {
+      const checkReady = () => {
+        // Check if elf character is loaded or fallback is ready
+        if (this.animationRegistry.isUsingElfCharacter()) {
+          const elfLoader = this.animationRegistry.getElfCharacterLoader();
+          if (elfLoader && elfLoader.areAssetsLoaded()) {
+            resolve();
+            return;
+          }
+        } else {
+          // Fallback animations should be ready immediately
+          resolve();
+          return;
+        }
+        
+        // Check again in 100ms
+        setTimeout(checkReady, 100);
+      };
+      
+      checkReady();
+    });
   }
 
   /**
@@ -112,8 +142,13 @@ export class PlayerAnimationController {
         this.movementTween.stop();
       }
 
-      // Get appropriate walk animation
-      const walkAnimation = this.config.walkAnimations[direction];
+      // Get appropriate walk animation (elf character or fallback)
+      let walkAnimation: string;
+      if (this.animationRegistry.isUsingElfCharacter()) {
+        walkAnimation = this.animationRegistry.getPlayerAnimationKey(direction, 'walking');
+      } else {
+        walkAnimation = this.config.walkAnimations[direction];
+      }
 
       // Play walk animation if it exists
       if (this.animationRegistry.hasAnimation(walkAnimation)) {
@@ -154,9 +189,19 @@ export class PlayerAnimationController {
   playIdleAnimation(): void {
     if (!this.isInitialized) return;
 
-    if (this.animationRegistry.hasAnimation(this.config.idleAnimation)) {
-      this.sprite.play(this.config.idleAnimation);
-      this.state.currentAnimation = this.config.idleAnimation;
+    let idleAnimation: string;
+    
+    if (this.animationRegistry.isUsingElfCharacter()) {
+      // Use elf character idle animation for current direction or default to down
+      const direction = this.state.direction || 'down';
+      idleAnimation = this.animationRegistry.getPlayerAnimationKey(direction, 'idle');
+    } else {
+      idleAnimation = this.config.idleAnimation;
+    }
+
+    if (this.animationRegistry.hasAnimation(idleAnimation)) {
+      this.sprite.play(idleAnimation);
+      this.state.currentAnimation = idleAnimation;
     } else {
       // Fallback: stop current animation and show first frame
       this.sprite.stop();
@@ -165,7 +210,6 @@ export class PlayerAnimationController {
 
     this.state.isIdle = true;
     this.state.isMoving = false;
-    this.state.direction = null;
   }
 
   /**
@@ -451,5 +495,12 @@ export class PlayerAnimationController {
    */
   getConfig(): PlayerAnimationConfig {
     return { ...this.config };
+  }
+
+  /**
+   * Gets the animation registry instance
+   */
+  getAnimationRegistry(): PlayerAnimationRegistry {
+    return this.animationRegistry;
   }
 }

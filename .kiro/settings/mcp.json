@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "pixellab": {
+      "command": "uvx",
+      "args": ["pixellab-mcp-server"],
+      "env": {
+        "PIXELLAB_API_KEY": "45692b39-26cf-488c-93f3-35d8c35aee85"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

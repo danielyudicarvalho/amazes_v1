@@ -15,6 +15,7 @@ import { OrbSpriteSystem } from '../presentation/OrbSpriteSystem'
 import { OrbAnimationController } from '../presentation/OrbAnimationController'
 import { ParticleEffectManager } from '../presentation/ParticleEffectManager'
 import { SpriteFactory } from '../presentation/SpriteFactory'
+import { WallTileIntegration } from '../presentation/WallTileIntegration'
 
 const CELL = 24
 
@@ -47,13 +48,22 @@ export class GameScene extends Phaser.Scene {
   private orbAnimationController!: OrbAnimationController
   private particleEffectManager!: ParticleEffectManager
   private spriteFactory!: SpriteFactory
+  private wallTileIntegration!: WallTileIntegration
   
   // UI state
   private mazeGraphics!: Phaser.GameObjects.Graphics
 
   constructor() { super('Game') }
 
-  create() {
+  preload() {
+    // Initialize and preload wall tiles
+    this.wallTileIntegration = new WallTileIntegration(this);
+    this.wallTileIntegration.preloadWallTiles();
+    
+    debugLogger.scene('Game', 'Wall tiles preloaded');
+  }
+
+  async create() {
     debugLogger.scene('Game', 'Game scene created', {
       sceneKey: this.scene.key,
       scaleWidth: this.scale.width,
@@ -62,6 +72,15 @@ export class GameScene extends Phaser.Scene {
 
     // Set beige background
     this.cameras.main.setBackgroundColor('#F5E6D3')
+
+    // Initialize wall tiles
+    try {
+      await this.wallTileIntegration.initializeWallTiles();
+      console.log('✅ Wall tiles initialized successfully');
+      debugLogger.scene('Game', 'Wall tiles initialized successfully');
+    } catch (error) {
+      console.error('❌ Failed to initialize wall tiles, using fallback rendering:', error);
+    }
 
     // Initialize services and managers
     this.gameCore = new GameCore()
@@ -417,6 +436,48 @@ export class GameScene extends Phaser.Scene {
     if (!this.gameState) return
 
     const maze = this.gameState.maze
+    
+    try {
+      // Try to use enhanced wall tile rendering
+      if (this.wallTileIntegration) {
+        console.log('🎨 Attempting to render maze with wall tiles...');
+        const mazeGroup = this.wallTileIntegration.renderMazeWithWallTiles(maze);
+        
+        if (mazeGroup) {
+          // Position the maze group to match the existing coordinate system
+          const cols = maze[0].length
+          const rows = maze.length
+          const mazeWidth = cols * CELL
+          const ox = (this.scale.width - mazeWidth) / 2
+          const oy = 200
+          
+          // Adjust positioning to match existing system
+          mazeGroup.setPosition(ox, oy);
+          
+          console.log('✅ Maze rendered with wall tiles successfully!');
+          debugLogger.scene('Game', 'Maze rendered with wall tiles', {
+            cols, rows, position: { x: ox, y: oy }
+          });
+          
+          return; // Successfully rendered with wall tiles
+        } else {
+          console.warn('⚠️ Wall tile integration returned null maze group');
+        }
+      } else {
+        console.warn('⚠️ Wall tile integration not available');
+      }
+    } catch (error) {
+      console.error('❌ Failed to render maze with wall tiles, falling back to graphics:', error);
+    }
+    
+    // Fallback to original graphics-based rendering
+    this.drawMazeFallback();
+  }
+
+  private drawMazeFallback() {
+    if (!this.gameState) return
+
+    const maze = this.gameState.maze
     const cols = maze[0].length
     const rows = maze.length
     
@@ -450,6 +511,8 @@ export class GameScene extends Phaser.Scene {
         if (cell.walls & 8) this.mazeGraphics.fillRect(px + 2, py - 2, CELL - 4, 4) // North
       }
     }
+    
+    debugLogger.scene('Game', 'Maze rendered with fallback graphics');
   }
 
   private createPlayer() {
@@ -1249,6 +1312,10 @@ export class GameScene extends Phaser.Scene {
     
     if (this.spriteRenderer) {
       this.spriteRenderer.destroy()
+    }
+    
+    if (this.wallTileIntegration) {
+      this.wallTileIntegration.destroy()
     }
     
     if (this.gameCore) {

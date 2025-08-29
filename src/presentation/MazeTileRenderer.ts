@@ -1,6 +1,7 @@
 // Maze tile rendering system for enhanced 2D art
 import { Position } from '../core/types/GameState';
 import { MazeCell } from '../core/types/Level';
+import { WallTileLoader } from './WallTileLoader';
 
 export interface TileConfig {
   key: string;
@@ -96,7 +97,8 @@ export class MazeTileRenderer implements IMazeTileRenderer {
   private scene: Phaser.Scene;
   private assetManager: any; // Will be properly typed when enhanced asset manager is available
   private layerManager: any; // LayerManager reference
-  private cellSize: number = 24;
+  private wallTileLoader: WallTileLoader;
+  private cellSize: number = 24; // Match GameScene CELL size
   private currentTheme: string = 'default';
   private tileCache: Map<string, Phaser.GameObjects.Sprite> = new Map();
   private connectionCache: Map<string, TileConnectionInfo> = new Map();
@@ -113,28 +115,24 @@ export class MazeTileRenderer implements IMazeTileRenderer {
     },
     walls: {
       straight: {
-        key: 'maze_wall_straight',
+        key: 'wall1',
         scale: 1,
-        anchor: { x: 0.5, y: 0.5 },
-        tint: 0x7FB069 // Green
+        anchor: { x: 0.5, y: 0.5 }
       },
       corner: {
-        key: 'maze_wall_corner',
+        key: 'wall2',
         scale: 1,
-        anchor: { x: 0.5, y: 0.5 },
-        tint: 0x7FB069
+        anchor: { x: 0.5, y: 0.5 }
       },
       junction: {
-        key: 'maze_wall_junction',
+        key: 'wall3',
         scale: 1,
-        anchor: { x: 0.5, y: 0.5 },
-        tint: 0x7FB069
+        anchor: { x: 0.5, y: 0.5 }
       },
       end: {
-        key: 'maze_wall_end',
+        key: 'wall4',
         scale: 1,
-        anchor: { x: 0.5, y: 0.5 },
-        tint: 0x7FB069
+        anchor: { x: 0.5, y: 0.5 }
       }
     },
     borders: {
@@ -173,6 +171,7 @@ export class MazeTileRenderer implements IMazeTileRenderer {
     this.scene = scene;
     this.layerManager = layerManager;
     this.assetManager = assetManager;
+    this.wallTileLoader = new WallTileLoader(scene);
   }
 
   renderMaze(mazeData: MazeCell[][], theme?: string): Phaser.GameObjects.Group {
@@ -470,7 +469,7 @@ export class MazeTileRenderer implements IMazeTileRenderer {
     // Bit flags: 1=East, 2=South, 4=West, 8=North
     
     if (walls & 8) { // North wall
-      const wallConfig = this.getWallConfigForDirection('north', connections, themeConfig);
+      const wallConfig = this.getWallConfigForPositionAndDirection(gridPosition, 'north', connections, themeConfig);
       const northWall = this.createTileSprite(wallConfig, {
         x: gridPosition.x,
         y: gridPosition.y - 0.5
@@ -484,7 +483,7 @@ export class MazeTileRenderer implements IMazeTileRenderer {
     }
     
     if (walls & 2) { // South wall
-      const wallConfig = this.getWallConfigForDirection('south', connections, themeConfig);
+      const wallConfig = this.getWallConfigForPositionAndDirection(gridPosition, 'south', connections, themeConfig);
       const southWall = this.createTileSprite(wallConfig, {
         x: gridPosition.x,
         y: gridPosition.y + 0.5
@@ -498,7 +497,7 @@ export class MazeTileRenderer implements IMazeTileRenderer {
     }
     
     if (walls & 4) { // West wall
-      const wallConfig = this.getWallConfigForDirection('west', connections, themeConfig);
+      const wallConfig = this.getWallConfigForPositionAndDirection(gridPosition, 'west', connections, themeConfig);
       const westWall = this.createTileSprite(wallConfig, {
         x: gridPosition.x - 0.5,
         y: gridPosition.y
@@ -512,7 +511,7 @@ export class MazeTileRenderer implements IMazeTileRenderer {
     }
     
     if (walls & 1) { // East wall
-      const wallConfig = this.getWallConfigForDirection('east', connections, themeConfig);
+      const wallConfig = this.getWallConfigForPositionAndDirection(gridPosition, 'east', connections, themeConfig);
       const eastWall = this.createTileSprite(wallConfig, {
         x: gridPosition.x + 0.5,
         y: gridPosition.y
@@ -605,16 +604,11 @@ export class MazeTileRenderer implements IMazeTileRenderer {
       // Create sprite based on configuration
       if (config.atlas && config.frame) {
         sprite = this.scene.add.sprite(0, 0, config.atlas, config.frame);
+      } else if (config.key.startsWith('wall') && this.wallTileLoader.isWallTileLoaded(config.key)) {
+        // Use wall tile loader for wall sprites
+        sprite = this.wallTileLoader.createWallSprite(config.key, 0, 0) || this.createFallbackSprite(config);
       } else {
-        // Fallback to colored rectangle if texture not available
-        const graphics = this.scene.add.graphics();
-        graphics.fillStyle(config.tint || 0xFFFFFF);
-        graphics.fillRect(-this.cellSize/2, -this.cellSize/2, this.cellSize, this.cellSize);
-        
-        // Convert graphics to texture and create sprite
-        const texture = graphics.generateTexture(config.key, this.cellSize, this.cellSize);
-        sprite = this.scene.add.sprite(0, 0, texture);
-        graphics.destroy();
+        sprite = this.createFallbackSprite(config);
       }
       
       // Apply configuration
@@ -644,33 +638,83 @@ export class MazeTileRenderer implements IMazeTileRenderer {
     }
   }
 
+  private createFallbackSprite(config: TileConfig): Phaser.GameObjects.Sprite {
+    // Fallback to colored rectangle if texture not available
+    const graphics = this.scene.add.graphics();
+    graphics.fillStyle(config.tint || 0xFFFFFF);
+    graphics.fillRect(-this.cellSize/2, -this.cellSize/2, this.cellSize, this.cellSize);
+    
+    // Convert graphics to texture and create sprite
+    const texture = graphics.generateTexture(config.key, this.cellSize, this.cellSize);
+    const sprite = this.scene.add.sprite(0, 0, texture);
+    graphics.destroy();
+    
+    return sprite;
+  }
+
   private getWallConfigForDirection(
     direction: 'north' | 'south' | 'east' | 'west',
     connections: TileConnectionInfo,
     themeConfig: MazeTileTheme
   ): TileConfig {
-    // For now, use the connection-based wall selection
-    const wallConfig = this.getWallTileForConnections(connections, this.currentTheme);
+    // Use the connection-based wall selection
+    const baseWallConfig = this.getWallTileForConnections(connections, this.currentTheme);
+    
+    // Create a copy to avoid modifying the original
+    const wallConfig = { ...baseWallConfig };
     
     // Apply direction-specific rotation
-    const rotatedConfig = { ...wallConfig };
-    
     switch (direction) {
       case 'north':
-        rotatedConfig.rotation = 0;
+        wallConfig.rotation = 0;
         break;
       case 'east':
-        rotatedConfig.rotation = Math.PI / 2;
+        wallConfig.rotation = Math.PI / 2;
         break;
       case 'south':
-        rotatedConfig.rotation = Math.PI;
+        wallConfig.rotation = Math.PI;
         break;
       case 'west':
-        rotatedConfig.rotation = -Math.PI / 2;
+        wallConfig.rotation = -Math.PI / 2;
         break;
     }
     
-    return rotatedConfig;
+    return wallConfig;
+  }
+
+  private getWallConfigForPositionAndDirection(
+    gridPosition: Position,
+    direction: 'north' | 'south' | 'east' | 'west',
+    connections: TileConnectionInfo,
+    themeConfig: MazeTileTheme
+  ): TileConfig {
+    // Get a position-based wall tile for variety
+    const wallTileKey = this.getWallTileForPosition(gridPosition.x, gridPosition.y);
+    
+    // Create config with the position-based tile
+    const wallConfig: TileConfig = {
+      key: wallTileKey,
+      scale: 1,
+      anchor: { x: 0.5, y: 0.5 }
+    };
+    
+    // Apply direction-specific rotation
+    switch (direction) {
+      case 'north':
+        wallConfig.rotation = 0;
+        break;
+      case 'east':
+        wallConfig.rotation = Math.PI / 2;
+        break;
+      case 'south':
+        wallConfig.rotation = Math.PI;
+        break;
+      case 'west':
+        wallConfig.rotation = -Math.PI / 2;
+        break;
+    }
+    
+    return wallConfig;
   }
 
   private getWallTypeFromConfig(wallConfig: TileConfig, themeConfig: MazeTileTheme): string {
@@ -774,10 +818,49 @@ export class MazeTileRenderer implements IMazeTileRenderer {
   }
 
   /**
+   * Initializes wall tiles loading
+   */
+  async initializeWallTiles(): Promise<void> {
+    try {
+      await this.wallTileLoader.loadWallTiles();
+      console.log('Wall tiles initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize wall tiles:', error);
+      // Continue with fallback rendering
+    }
+  }
+
+  /**
+   * Preloads wall tiles (non-blocking)
+   */
+  preloadWallTiles(): void {
+    this.wallTileLoader.preloadAllWallTiles();
+  }
+
+  /**
+   * Gets a wall tile for a specific position to create variety
+   */
+  getWallTileForPosition(x: number, y: number): string {
+    return this.wallTileLoader.getWallTileForPosition(x, y);
+  }
+
+  /**
+   * Validates that wall tiles are loaded
+   */
+  validateWallTiles(): boolean {
+    const validation = this.wallTileLoader.validateWallTiles();
+    if (!validation.isValid) {
+      console.warn('Missing wall tiles:', validation.missing);
+    }
+    return validation.isValid;
+  }
+
+  /**
    * Destroys the renderer and cleans up resources
    */
   destroy(): void {
     this.clearCaches();
+    this.wallTileLoader.cleanup();
     console.log('MazeTileRenderer destroyed and cleaned up');
   }
 }

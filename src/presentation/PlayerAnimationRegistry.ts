@@ -1,4 +1,7 @@
-// Registry for player animations with fallback support
+// Registry for player animations with fallback support and elf character integration
+import { ElfCharacterLoader } from './ElfCharacterLoader';
+import { Direction } from '../core/GameCore';
+
 export interface AnimationFrameData {
   key: string;
   frame?: string;
@@ -17,10 +20,12 @@ export class PlayerAnimationRegistry {
   private scene: Phaser.Scene;
   private registeredAnimations: Map<string, PlayerAnimationData> = new Map();
   private fallbackTextures: Map<string, string> = new Map();
+  private elfCharacterLoader: ElfCharacterLoader | null = null;
+  private useElfCharacter: boolean = false;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
-    this.initializeFallbackAnimations();
+    this.initializeElfCharacter();
   }
 
   /**
@@ -57,6 +62,29 @@ export class PlayerAnimationRegistry {
       if (!this.scene.anims.exists(animData.key)) {
         this.createPhaserAnimation(animData);
       }
+    }
+  }
+
+  /**
+   * Initializes the elf character system
+   */
+  private async initializeElfCharacter(): Promise<void> {
+    try {
+      this.elfCharacterLoader = new ElfCharacterLoader(this.scene);
+      await this.elfCharacterLoader.loadConfig();
+      const loadResult = await this.elfCharacterLoader.loadAssets();
+      
+      if (loadResult.success) {
+        this.useElfCharacter = true;
+        this.registerElfAnimations();
+        console.log('Elf character successfully loaded and registered');
+      } else {
+        console.warn('Elf character failed to load, falling back to basic animations:', loadResult.errors);
+        this.initializeFallbackAnimations();
+      }
+    } catch (error) {
+      console.warn('Failed to initialize elf character, using fallback:', error);
+      this.initializeFallbackAnimations();
     }
   }
 
@@ -229,9 +257,96 @@ export class PlayerAnimationRegistry {
   }
 
   /**
+   * Registers elf character animations
+   */
+  private registerElfAnimations(): void {
+    if (!this.elfCharacterLoader) return;
+    
+    const directions: Direction[] = ['up', 'down', 'left', 'right'];
+    
+    // Register idle animations
+    directions.forEach(direction => {
+      const animKey = this.elfCharacterLoader!.getAnimationKey(direction, 'idle');
+      if (this.scene.anims.exists(animKey)) {
+        this.registeredAnimations.set(`player_idle_${direction}`, {
+          key: animKey,
+          frames: [{ key: this.elfCharacterLoader!.getTextureKey(direction, 'idle') }],
+          frameRate: 1,
+          repeat: -1,
+          yoyo: false
+        });
+      }
+    });
+    
+    // Register walking animations
+    directions.forEach(direction => {
+      const animKey = this.elfCharacterLoader!.getAnimationKey(direction, 'walking');
+      if (this.scene.anims.exists(animKey)) {
+        this.registeredAnimations.set(`player_walk_${direction}`, {
+          key: animKey,
+          frames: [], // Frames are already set in the Phaser animation
+          frameRate: 8,
+          repeat: -1,
+          yoyo: false
+        });
+      }
+    });
+    
+    console.log(`Registered ${this.registeredAnimations.size} elf character animations`);
+  }
+
+  /**
+   * Gets the appropriate texture key for creating sprites
+   */
+  getPlayerTextureKey(direction: Direction = 'down'): string {
+    if (this.useElfCharacter && this.elfCharacterLoader) {
+      return this.elfCharacterLoader.getTextureKey(direction, 'idle');
+    }
+    return 'player_idle';
+  }
+
+  /**
+   * Gets the appropriate animation key for player states
+   */
+  getPlayerAnimationKey(direction: Direction, state: 'idle' | 'walking'): string {
+    if (this.useElfCharacter && this.elfCharacterLoader) {
+      return this.elfCharacterLoader.getAnimationKey(direction, state);
+    }
+    return `player_${state}_${direction}`;
+  }
+
+  /**
+   * Checks if elf character is being used
+   */
+  isUsingElfCharacter(): boolean {
+    return this.useElfCharacter;
+  }
+
+  /**
+   * Gets the elf character loader instance
+   */
+  getElfCharacterLoader(): ElfCharacterLoader | null {
+    return this.elfCharacterLoader;
+  }
+
+  /**
+   * Forces fallback to basic animations
+   */
+  useFallbackAnimations(): void {
+    this.useElfCharacter = false;
+    this.registeredAnimations.clear();
+    this.initializeFallbackAnimations();
+    console.log('Switched to fallback animations');
+  }
+
+  /**
    * Cleans up and destroys the registry
    */
   destroy(): void {
+    if (this.elfCharacterLoader) {
+      this.elfCharacterLoader.cleanup();
+      this.elfCharacterLoader = null;
+    }
     this.registeredAnimations.clear();
     this.fallbackTextures.clear();
   }

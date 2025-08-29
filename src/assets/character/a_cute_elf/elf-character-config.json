@@ -1,0 +1,81 @@
+{
+  "character": {
+    "id": "elf_character",
+    "name": "Cute Elf",
+    "description": "A cute elf character with 8-directional movement and walking animations",
+    "size": {
+      "width": 48,
+      "height": 48
+    },
+    "scale": 1.0,
+    "anchor": {
+      "x": 0.5,
+      "y": 0.5
+    }
+  },
+  "assets": {
+    "idle_frames": {
+      "south": "rotations/south.png",
+      "west": "rotations/west.png",
+      "east": "rotations/east.png",
+      "north": "rotations/north.png",
+      "south_east": "rotations/south-east.png",
+      "north_east": "rotations/north-east.png",
+      "north_west": "rotations/north-west.png",
+      "south_west": "rotations/south-west.png"
+    },
+    "walking_frames": {
+      "south": [
+        "animations/walking-6-frames/south/frame_000.png",
+        "animations/walking-6-frames/south/frame_001.png",
+        "animations/walking-6-frames/south/frame_002.png",
+        "animations/walking-6-frames/south/frame_003.png",
+        "animations/walking-6-frames/south/frame_004.png",
+        "animations/walking-6-frames/south/frame_005.png"
+      ],
+      "west": [
+        "animations/walking-6-frames/west/frame_000.png",
+        "animations/walking-6-frames/west/frame_001.png",
+        "animations/walking-6-frames/west/frame_002.png",
+        "animations/walking-6-frames/west/frame_003.png",
+        "animations/walking-6-frames/west/frame_004.png",
+        "animations/walking-6-frames/west/frame_005.png"
+      ],
+      "east": [
+        "animations/walking-6-frames/east/frame_000.png",
+        "animations/walking-6-frames/east/frame_001.png",
+        "animations/walking-6-frames/east/frame_002.png",
+        "animations/walking-6-frames/east/frame_003.png",
+        "animations/walking-6-frames/east/frame_004.png",
+        "animations/walking-6-frames/east/frame_005.png"
+      ],
+      "north": [
+        "animations/walking-6-frames/north/frame_000.png",
+        "animations/walking-6-frames/north/frame_001.png",
+        "animations/walking-6-frames/north/frame_002.png",
+        "animations/walking-6-frames/north/frame_003.png",
+        "animations/walking-6-frames/north/frame_004.png",
+        "animations/walking-6-frames/north/frame_005.png"
+      ]
+    }
+  },
+  "animations": {
+    "idle": {
+      "frameRate": 1,
+      "repeat": -1,
+      "yoyo": false
+    },
+    "walking": {
+      "frameRate": 8,
+      "repeat": -1,
+      "yoyo": false,
+      "duration": 150
+    }
+  },
+  "direction_mapping": {
+    "up": "north",
+    "down": "south",
+    "left": "west",
+    "right": "east"
+  }
+}
